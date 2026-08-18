@@ -1,0 +1,31 @@
+# Textile Defect Detection — Hangzhou 2026 POC
+# requirements.txt — pinned production dependencies
+
+# Core ML / Computer Vision
+ultralytics>=8.4.0
+opencv-python>=4.13.0
+Pillow>=12.0.0
+
+# Data science
+numpy>=2.4.0
+pandas>=3.0.0
+matplotlib>=3.10.0
+scipy>=1.14.0
+
+# Dataset acquisition
+kagglehub>=0.3.0
+
+# Augmentation
+albumentations>=2.0.0
+
+# Annotation / YAML
+PyYAML>=6.0.0
+
+# Utilities
+tqdm>=4.67.0
+imagehash>=4.3.0
+
+# Notebook
+jupyter>=1.1.0
+nbformat>=5.10.0
+ipykernel>=6.29.0

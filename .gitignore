@@ -1,0 +1,83 @@
+# =============================================
+# Textile Defect Detection — Hangzhou 2026 POC
+# .gitignore
+# =============================================
+
+# ── Dataset directories ──────────────────────
+dataset/
+data/
+raw/
+raw_dataset/
+processed/
+processed_dataset/
+final_dataset/
+kaggle_cache/
+
+# ── Dataset file formats ─────────────────────
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.tif
+*.tiff
+*.webp
+*.gif
+
+# ── Archive files ─────────────────────────────
+*.zip
+*.tar
+*.tar.gz
+*.tar.bz2
+*.7z
+*.rar
+
+# ── YOLO training output ──────────────────────
+runs/
+weights/
+*.pt
+*.onnx
+*.engine
+
+# ── Kaggle & Google credentials ──────────────
+kaggle.json
+*.json
+!package.json
+token.json
+credentials.json
+service_account*.json
+.env
+.env.*
+
+# ── Notebook checkpoints ─────────────────────
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# ── Python cache ──────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ── OS artifacts ──────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editor & IDE ──────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Temporary / scratch ───────────────────────
+tmp/
+temp/
+scratch/
+*.tmp
+*.log
