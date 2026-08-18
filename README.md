@@ -147,10 +147,7 @@ OVERALL:                ✅ PASS
 > **⚠️ Note:** The dataset is NOT stored in this repository.
 > Download the preprocessed, training-ready dataset from Google Drive:
 
-[📦 Download Final YOLOv8 Dataset — textile_defect_yolov8_final.zip](OneDrive Local Link (Manual access required))
-
-> Google Drive folder: `Hangzhou_Textile_POC/textile_defect_yolov8_final.zip`
-> Account: ehtisham.malik5618@gmail.com
+[📦 Download Final YOLOv8 Dataset — textile_defect_yolov8_final.zip](https://drive.google.com/drive/folders/1f9qfY8KkIFtAXe1REnx_I-fhNaUEdgkU?usp=sharing)
 
 ---
 
