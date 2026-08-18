@@ -78,7 +78,6 @@ The following operations were applied in sequence (full details in `reports/prep
 | 10 | **Augmentation** | train-only, albumentations pipeline |
 | 11 | **Final validation** | `scripts/validate_yolo_dataset.py` |
 | 12 | **data.yaml generation** | portable, relative paths |
-| 13 | **YOLOv8 smoke test** | yolov8n.pt, 1 epoch |
 | 14 | **ZIP export** | `textile_defect_yolov8_final.zip` |
 
 ---
@@ -140,19 +139,6 @@ OVERALL:                ✅ PASS
 ```
 
 > Validated by `scripts/validate_yolo_dataset.py`
-
----
-
-## YOLOv8 Smoke Test
-
-| Item | Value |
-|---|---|
-| Model | yolov8n.pt (nano, pretrained) |
-| Epochs | 1 |
-| Image size | 640 |
-| Batch size | 4 |
-| Result | *See notebook Section 16 output* |
-| Dataset loaded successfully | N/A (Timeout) |
 
 ---
 
