@@ -313,6 +313,55 @@ Textile-Defect-Detection/
 
 ---
 
+## Backend API Testing in Google Colab
+
+The trained model can be tested in Google Colab using the notebook
+`fastapi_endpoint.ipynb` from the backend project. The notebook tests the backend
+`/predict` contract in the browser and does not require a local Python server.
+
+### Open the notebook
+
+1. Open [Google Colab](https://colab.research.google.com/).
+2. Select **File > Upload notebook**.
+3. Upload `fastapi_endpoint.ipynb`.
+4. Run the cells from top to bottom.
+
+### Install dependencies
+
+The first code cell installs the Colab dependencies automatically:
+
+```python
+%pip install -q ultralytics pillow matplotlib fastapi python-multipart httpx
+```
+
+### Provide the model and image
+
+The notebook mounts Google Drive first. To use files from Drive, set
+`DRIVE_PROJECT_DIR` to the folder containing `best.pt` and a test image:
+
+```python
+DRIVE_PROJECT_DIR = DRIVE_ROOT / "Textile defect detection/Backend_fastapi_endpoint"
+```
+
+Alternatively, leave `DRIVE_PROJECT_DIR = None`. Colab will prompt you to upload
+`best.pt` and an image such as `hole.jpeg` directly from your computer.
+
+### Run and validate inference
+
+The notebook loads the YOLO model, runs prediction, and prints JSON containing:
+
+- image filename, width, and height
+- defect `class_id` and `class_name`
+- detection confidence
+- pixel-based `x1`, `y1`, `x2`, and `y2` coordinates measured from the top-left corner
+
+It also validates the response fields, displays an annotated image with the
+detected boxes, and prints `FastAPI /predict test passed`. The current notebook
+does not save `detections.json` or `annotated_result.jpg`; its JSON response and
+annotated image are displayed only for the current Colab session.
+
+---
+
 ## Team
 
 **Organization:** Devlogix Technology  
