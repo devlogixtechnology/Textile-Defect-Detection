@@ -384,6 +384,37 @@ FastAPI Backend
   ↓
 Streamlit Dashboard
 
+### Local POC Run
+
+The local dashboard uses the `tdd` Conda environment with the FastAPI backend
+running before Streamlit. The YOLO checkpoint is expected at
+`Backend_fastapi_endpoint/best.pt` and is loaded by the backend, not by the
+Streamlit frontend.
+
+Start the FastAPI backend from the repository root:
+
+```powershell
+conda activate tdd
+python -m uvicorn Backend_fastapi_endpoint.main:api_app --host 127.0.0.1 --port 8000
+```
+
+In a second terminal, start the dashboard:
+
+```powershell
+conda activate tdd
+streamlit run Streamlit/app.py
+```
+
+Open the Streamlit URL shown in the terminal, normally
+`http://localhost:8501`. The dashboard sends uploaded JPG, JPEG, or PNG files
+to `POST http://127.0.0.1:8000/predict` using the multipart field `file`. The
+backend returns pixel-based `x1`, `y1`, `x2`, and `y2` coordinates, which the
+dashboard renders on the image with class names and confidence scores. The
+backend URL can be changed in the Streamlit sidebar.
+
+The frontend dependencies are listed in `Streamlit/requirements.txt`. The
+frontend does not require `torch`, `torchvision`, or `ultralytics`; those are
+backend inference dependencies.
 
 ---
 

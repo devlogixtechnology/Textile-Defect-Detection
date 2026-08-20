@@ -42,7 +42,7 @@ if uploaded_file is not None:
 if uploaded_file is not None:
     cols = st.columns([1, 1])
     with cols[0]:
-        st.image(image, caption="Original image", use_column_width=True)
+        st.image(image, caption="Original image", width="stretch")
         st.write(f"Dimensions: {image.width} x {image.height} pixels")
 
     detect = st.button("Detect Defects")
@@ -106,13 +106,15 @@ if uploaded_file is not None:
                     # Draw rectangle and label
                     draw.rectangle(box, outline="red", width=3)
                     label = f"{cls} — {round(float(conf) * 100, 1)}%"
-                    text_size = draw.textsize(label, font=font) if font else (0, 0)
-                    text_bg = [box[0], box[1] - text_size[1] - 4, box[0] + text_size[0] + 4, box[1]]
+                    text_bbox = draw.textbbox((0, 0), label, font=font) if font else (0, 0, 0, 0)
+                    text_width = text_bbox[2] - text_bbox[0]
+                    text_height = text_bbox[3] - text_bbox[1]
+                    text_bg = [box[0], box[1] - text_height - 4, box[0] + text_width + 4, box[1]]
                     draw.rectangle(text_bg, fill="red")
-                    draw.text((box[0] + 2, box[1] - text_size[1] - 2), label, fill="white", font=font)
+                    draw.text((box[0] + 2, box[1] - text_height - 2), label, fill="white", font=font)
 
                 with cols[1]:
-                    st.image(annotated, caption="Annotated result", use_column_width=True)
+                    st.image(annotated, caption="Annotated result", width="stretch")
 
                 # Results table
                 st.subheader("Detection Results")
