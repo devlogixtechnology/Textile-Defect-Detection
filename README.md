@@ -1,437 +1,208 @@
-# 🧵 Textile Defect Detection — Hangzhou 2026 POC
+# Textile Defect Detection and Industrial Hazard Expansion
 
-[![Python](https://img.shields.io/badge/Python-3.14-blue.svg)](https://python.org)
-[![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-orange.svg)](https://ultralytics.com)
-[![Dataset](https://img.shields.io/badge/Dataset-FabricDefectNTU-green.svg)](https://www.kaggle.com/datasets/muhammadharisabid/fabricdefectntu)
-[![Organization](https://img.shields.io/badge/Org-Devlogix%20Technology-purple.svg)](https://github.com/devlogixtechnology)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
+Computer vision proof of concept for textile defect detection and industrial
+safety monitoring, developed for Devlogix Technology.
 
----
+The project started as a 7-class textile defect detector and was expanded into a
+12-class model by adding five industrial hazard classes.
 
-## Project
+## Classes
 
-This repository contains the complete **dataset preparation and initial model training pipeline**
-for the **Textile Defect Detection — Hangzhou 2026 Proof of Concept (POC)** developed by
-**Devlogix Technology**.
+Textile defect classes:
 
-The pipeline downloads, inspects, cleans, augments, validates, and packages a
-YOLOv8-compatible textile defect dataset, followed by initial YOLOv8 model training,
-validation, test-set inference, extraction of pitch-ready performance metrics,
-local FastAPI inference, and a Streamlit visual dashboard.
+- `baekra`
+- `color issues`
+- `contamination`
+- `cut`
+- `gray stitch`
+- `selvet`
+- `stain`
 
----
+Industrial hazard classes:
 
-## Dataset
+- `chemical hazard`
+- `fire`
+- `no helmet`
+- `smoke`
+- `water leak`
 
-| Field | Value |
-|---|---|
-| **Name** | CHENAB Textile / FabricDefectNTU |
-| **Kaggle ID** | `muhammadharisabid/fabricdefectntu` |
-| **Source** | [Kaggle Dataset Page](https://www.kaggle.com/datasets/muhammadharisabid/fabricdefectntu) |
-| **Format** | YOLOv8 (YOLO-format annotations) |
-| **Annotation type** | Bounding boxes |
-| **Target framework** | YOLOv8 (Ultralytics) |
+## Repository Structure
 
----
-
-## Dataset Statistics
-
-> The source dataset contained 2,792 images. The final processed dataset contains
-> 4,742 images after the preprocessing workflow, including train-only augmentation.
-
-| Metric | Original Dataset | Final Processed Dataset |
-|---|---:|---:|
-| Total images | 2,792 | 4,742 |
-| Train images | 1,950 | 3,900 |
-| Validation images | 562 | 562 |
-| Test images | 280 | 280 |
-| Classes | 7 | 7 |
-| Dataset size | ~500 MB | ~1.3 GB |
-
----
-
-## Defect Classes
-
-Classes are taken directly from the source `data.yaml`. Run the notebook to discover and document exact class names:
-
-```yaml
-# From final_dataset/data.yaml
-names:
-  - baekra, color issues, contamination, cut, gray stitch, selvet, stain
+```text
+Textile-Defect-Detection/
+|-- Backend/
+|   |-- fastapi_endpoint.ipynb
+|   `-- main.py
+|-- Frontend/
+|   |-- app.py
+|   |-- README.md
+|   `-- requirements.txt
+|-- Hazard_Expansion/
+|   |-- 01_prepare_combined_dataset.ipynb
+|   |-- 02_improve_existing_model.ipynb
+|   |-- 03_train_expanded_model.ipynb
+|   |-- 04_evaluate_and_compare.ipynb
+|   `-- content_runtime/              # ignored local/Colab runtime artifacts
+|-- Preprocessing/
+|   |-- notebooks/
+|   |-- reports/
+|   `-- scripts/
+|-- Training/
+|   `-- Textile_Defect_Detection_Training.ipynb
+|-- requirements.txt
+|-- .gitignore
+`-- LICENSE.txt
 ```
 
----
+Large datasets, model checkpoints, runtime outputs, images, and training result
+artifacts are not stored in GitHub. They are kept in Google Drive.
 
-## Preprocessing Pipeline
+## Google Drive Artifacts
 
-The following operations were applied in sequence. The preprocessing notebook and
-CSV validation reports are in `Preprocessing/`:
+Main Drive folder:
 
-| Step | Operation | Details |
-|---|---|---|
-| 1 | **Dataset download** | via `kagglehub` |
-| 2 | **Structure inspection** | directory tree, data.yaml, splits |
-| 3 | **Statistics collection** | counts, resolutions, class distribution |
-| 4 | **Visual inspection** | random samples with YOLO bbox overlay |
-| 5 | **Annotation validation** | YOLO format, class IDs, coordinate bounds |
-| 6 | **Image cleaning** | corrupted/unreadable images excluded |
-| 7 | **Duplicate detection** | MD5 hash, cross-split leakage check |
-| 8 | **Resolution analysis** | no resize needed (YOLOv8 handles letterboxing) |
-| 9 | **Clean dataset copy** | `final_dataset/` created from scratch |
-| 10 | **Augmentation** | train-only, albumentations pipeline |
-| 11 | **Final validation** | `Preprocessing/scripts/validate_yolo_dataset.py` |
-| 12 | **data.yaml generation** | portable, relative paths |
-| 13 | **ZIP export** | `textile_defect_yolov8_final.zip` |
+https://drive.google.com/drive/u/0/folders/1f9qfY8KkIFtAXe1REnx_I-fhNaUEdgkU
 
----
+Drive contents:
 
-## Augmentation
-
-Applied to **training set only** using [Albumentations](https://albumentations.ai/):
-
-| Transform | Parameters | Probability |
-|---|---|---|
-| HorizontalFlip | — | 0.5 |
-| RandomBrightnessContrast | brightness ±0.2, contrast ±0.2 | 0.7 |
-| Rotate | ±10° | 0.4 |
-| GaussNoise | std (0.01–0.04) | 0.3 |
-| RandomScale | ±10% | 0.3 |
-
-> **Vertical flip not applied** — defect orientation is meaningful in factory inspection context.  
-> Bounding boxes are transformed **together** with images to maintain label correctness.
-
----
-
-## YOLO Format
-
-The final dataset is **fully YOLOv8-compatible**:
-
-```
-final_dataset/
-├── images/
-│   ├── train/
-│   ├── val/
-│   └── test/
-├── labels/
-│   ├── train/
-│   ├── val/
-│   └── test/
-└── data.yaml
+```text
+Drive root folder/
+|-- textile_defect_yolov8_final.zip       # local folder name: final_dataset
+|-- combined_dataset.zip                  # 12-class combined dataset
+`-- Training_Results/
+    |-- yolov8s_textile_initial/          # baseline 7-class training outputs
+    |-- yolov8s_improved_7class/          # improved 7-class checkpoint/results
+    |-- Expanded_12-class_model/          # expanded 12-class checkpoint/results
+    `-- hazard_reports/                   # final report, matrices, examples
 ```
 
-Each label file follows the YOLO format:
-```
-<class_id> <x_center> <y_center> <width> <height>
-```
-All coordinates are normalized to `[0, 1]`.
+Important local runtime folders used during development:
 
----
+- `final_dataset/`: extracted 7-class textile dataset, ignored by Git.
+- `Hazard_Expansion/content_runtime/combined_dataset/`: extracted 12-class
+  combined dataset, ignored by Git.
+- `Hazard_Expansion/content_runtime/improved_model_results/`: local copy of the
+  improved 7-class `best.pt` and `results.json`, ignored by Git.
+- `Hazard_Expansion/content_runtime/expanded_model_results/`: local copy of the
+  expanded 12-class results, ignored by Git.
+- `Backend/best.pt`: deployed expanded 12-class checkpoint, ignored by Git.
 
-## Validation Results
+## Main Workflows
 
-```
-FINAL DATASET VALIDATION
-========================
-Corrupted images:       0
-Invalid labels:         0
-Cross-split duplicates: 0
+### 1. Preprocessing
 
-YOLO format:            PASS
-data.yaml:              PASS
-OVERALL:                ✅ PASS
-```
+The original textile preprocessing workflow lives in:
 
-> Validated by `Preprocessing/scripts/validate_yolo_dataset.py`
-
----
-
-## Final Dataset Download
-
-> **⚠️ Note:** The dataset is NOT stored in this repository.
-> Download the preprocessed, training-ready dataset from Google Drive:
-
-[📦 Download Final YOLOv8 Dataset — textile_defect_yolov8_final.zip](https://drive.google.com/drive/folders/1f9qfY8KkIFtAXe1REnx_I-fhNaUEdgkU?usp=sharing)
-
----
-
-## Reproducing the Pipeline
-
-### Prerequisites
-
-```bash
-git clone https://github.com/devlogixtechnology/Textile-Defect-Detection.git
-cd Textile-Defect-Detection
-pip install -r requirements.txt
+```text
+Preprocessing/notebooks/dataset_preprocessing.ipynb
 ```
 
-### Kaggle API Setup
+Standalone helpers:
 
-1. Go to [kaggle.com/settings](https://www.kaggle.com/settings) → API → **Create New Token**
-2. Place `kaggle.json` at `~/.kaggle/kaggle.json`
-3. On Windows: `C:\Users\<username>\.kaggle\kaggle.json`
-
-### Run the Notebook
-
-```bash
-jupyter notebook Preprocessing/notebooks/dataset_preprocessing.ipynb
-```
-
-Run all cells in order (Kernel → Restart & Run All).
-
-### Validate the Final Dataset
-
-```bash
+```powershell
 python Preprocessing/scripts/validate_yolo_dataset.py --dataset final_dataset/
-```
-
-### Generate Statistics Only
-
-```bash
 python Preprocessing/scripts/dataset_statistics.py --dataset final_dataset/ --output Preprocessing/reports/
 ```
 
-### Start YOLOv8 Training
+### 2. Baseline Training
 
-The initial training workflow for Task 2 is provided in:
+The original YOLOv8s 7-class baseline training workflow lives in:
 
 ```text
 Training/Textile_Defect_Detection_Training.ipynb
 ```
 
-The model was trained using **YOLOv8s** with the following configuration:
+Baseline metrics:
 
-| Parameter | Value |
-|---|---|
-| **Model** | YOLOv8s |
-| **Training epochs** | 20 |
-| **Image size** | 640 × 640 |
-| **Number of classes** | 7 |
-
-The training notebook includes model training, validation, test-set inference,
-results analysis, contact-sheet generation, and selection of representative
-pitch images.
-
-Training checkpoints, training metrics, annotated test predictions,
-contact sheets, and selected pitch images are stored separately in Google Drive
-and are **not committed to this repository**.
-
-[📦 Download / View Training Results, Checkpoints & Inference Outputs](https://drive.google.com/drive/folders/1mAVGEnldODEUiwF3XGNrYHpgsPexaSxc?usp=sharing)
-
----
-
-## Training Results
-
-The initial YOLOv8s model was trained for **20 epochs** on the seven-class
-textile defect detection dataset.
-
-### Overall Validation Metrics
-
-| Metric | Result |
+| Metric | Value |
 |---|---:|
-| **Precision** | **76.97%** |
-| **Recall** | **74.76%** |
-| **mAP@50** | **78.82%** |
-| **mAP@50-95** | **47.12%** |
+| Precision | 76.97% |
+| Recall | 74.76% |
+| mAP@50 | 78.82% |
+| mAP@50-95 | 47.12% |
 
-The saved `best.pt` checkpoint was successfully validated and achieved the
-metrics above.
+### 3. Hazard Expansion
 
-### Class-wise Validation Performance
-
-| Defect Class | mAP@50 |
-|---|---:|
-| **contamination** | **99.0%** |
-| **stain** | **91.9%** |
-| **baekra** | **83.9%** |
-| **cut** | **82.8%** |
-| **gray stitch** | **74.0%** |
-| **selvet** | **68.9%** |
-| **color issues** | **51.2%** |
-
-**Strongest class:** contamination — 99.0% mAP@50
-
-**Weakest class:** color issues — 51.2% mAP@50
-
-The difference between mAP@50 and mAP@50-95 indicates that the model is
-generally effective at detecting the correct defect classes, while more
-precise bounding-box localization remains an area for improvement.
-
-### Test-Set Inference
-
-The complete final test set of **280 images** was processed successfully.
-
-- **280/280** test images received annotated predictions.
-- **6 contact sheets** were generated for visual inspection.
-- **3 representative pitch images** were selected:
-  - `01_baekra.jpg`
-  - `02_cut.jpg`
-  - `03_stain.jpg`
-
-### Training Outputs
-
-The following outputs are stored in Google Drive rather than in the GitHub
-repository:
+The hazard expansion workflow is directly under `Hazard_Expansion/`:
 
 ```text
-Textile_Defect_Training/
-├── Training_Results/
-│   └── yolov8s_textile_initial/
-│       ├── best.pt
-│       ├── results.csv
-│       └── training outputs
-└── Test_Inference/
-    ├── test_predictions/
-    ├── Contact_Sheets/
-    └── Selected_3/
-        ├── 01_baekra.jpg
-        ├── 02_cut.jpg
-        └── 03_stain.jpg
+01_prepare_combined_dataset.ipynb
+02_improve_existing_model.ipynb
+03_train_expanded_model.ipynb
+04_evaluate_and_compare.ipynb
 ```
 
-[📦 View Training Results, Checkpoints & Inference Outputs on Google Drive](https://drive.google.com/drive/folders/1mAVGEnldODEUiwF3XGNrYHpgsPexaSxc?usp=sharing)
+Notebook 4 performs the final comparison across:
 
-## Repository Structure
+- Experiment A: historical 7-class baseline
+- Experiment B: improved 7-class model
+- Experiment C: expanded 12-class model
 
-```
-Textile-Defect-Detection/
-├── Backend_fastapi_endpoint/
-│   ├── fastapi_endpoint.ipynb          ← Colab inference and API contract notebook
-│   └── main.py                          ← Local FastAPI application
-├── Preprocessing/
-│   ├── notebooks/
-│   │   └── dataset_preprocessing.ipynb  ← Main preprocessing pipeline
-│   ├── reports/
-│   │   ├── annotation_validation.csv    ← Annotation validation report
-│   │   └── cleaning_log.csv             ← Image cleaning log
-│   └── scripts/
-│       ├── dataset_statistics.py        ← Standalone statistics generator
-│       └── validate_yolo_dataset.py     ← Standalone YOLO validator
-├── Streamlit/
-│   ├── app.py                           ← Visual dashboard
-│   ├── README.md                        ← Dashboard instructions
-│   └── requirements.txt                 ← Frontend dependencies
-├── Training/
-│   └── Textile_Defect_Detection_Training.ipynb ← YOLOv8 training workflow
-├── README.md
-├── requirements.txt
-├── .gitignore
-└── LICENSE.txt
-```
+The final Definition of Done rule is:
 
-> **The dataset itself (`final_dataset/`, ZIP), training checkpoints, training metrics,
-> and test inference outputs are NOT stored in this repository. They are provided
-> through the Google Drive links above.**
+- at least `2/5` hazard classes must reach `>= 70%` mAP@50
+- at least `1/3` of the remaining hazard classes must reach `>= 60%` mAP@50
 
----
+Current expanded-model DoD result: `PASS`.
 
-## Backend API Testing in Google Colab
+Passing classes:
 
-The trained model can be tested in Google Colab using the notebook
-`fastapi_endpoint.ipynb` from the backend project. The notebook tests the backend
-`/predict` contract in the browser and does not require a local Python server.
+- `no helmet`: 89.4% AP@50
+- `water leak`: 70.5% AP@50
+- `fire`: 62.1% AP@50 support pass
 
-### Open the notebook
+Primary weak classes:
 
-1. Open [Google Colab](https://colab.research.google.com/).
-2. Select **File > Upload notebook**.
-3. Upload `fastapi_endpoint.ipynb`.
-4. Run the cells from top to bottom.
+- `chemical hazard`: 49.1% AP@50
+- `smoke`: 57.3% AP@50
 
-### Install dependencies
+## Backend
 
-The first code cell installs the Colab dependencies automatically:
+The backend is a FastAPI app in `Backend/main.py`. It loads `Backend/best.pt`,
+which should be the expanded 12-class checkpoint.
 
-```python
-%pip install -q ultralytics pillow matplotlib fastapi python-multipart httpx
-```
-
-### Provide the model and image
-
-The notebook mounts Google Drive first. To use files from Drive, set
-`DRIVE_PROJECT_DIR` to the folder containing `best.pt` and a test image:
-
-```python
-DRIVE_PROJECT_DIR = DRIVE_ROOT / "Textile defect detection/Backend_fastapi_endpoint"
-```
-
-Alternatively, leave `DRIVE_PROJECT_DIR = None`. Colab will prompt you to upload
-`best.pt` and an image such as `hole.jpeg` directly from your computer.
-
-### Run and validate inference
-
-The notebook loads the YOLO model, runs prediction, and prints JSON containing:
-
-- image filename, width, and height
-- defect `class_id` and `class_name`
-- detection confidence
-- pixel-based `x1`, `y1`, `x2`, and `y2` coordinates measured from the top-left corner
-
-It also validates the response fields, saves `annotated_result.jpg` in the
-current Colab working directory, displays the detected boxes, and prints
-`FastAPI /predict test passed`. The notebook does not save a separate
-`detections.json` file; its JSON response is printed for the current session.
-
----
-
-## Sub Task 4 — Streamlit Visual Dashboard
-
-A Streamlit-based frontend was added to provide a simple visual dashboard for
-non-technical users during the Hangzhou 2026 POC. The dashboard acts as a
-client-only application that uploads images to the existing FastAPI `/predict`
-endpoint and visualizes defect bounding boxes, class names, and confidence
-scores. The Streamlit app does NOT perform model inference locally — it relies
-on the FastAPI backend.
-
-Architecture:
-
-Dataset
-  ↓
-Preprocessing
-  ↓
-YOLOv8 Training
-  ↓
-Trained Model
-  ↓
-FastAPI Backend
-  ↓
-Streamlit Dashboard
-
-### Local POC Run
-
-The local dashboard uses the `tdd` Conda environment with the FastAPI backend
-running before Streamlit. The YOLO checkpoint is expected at
-`Backend_fastapi_endpoint/best.pt` and is loaded by the backend, not by the
-Streamlit frontend.
-
-Start the FastAPI backend from the repository root:
+Run locally:
 
 ```powershell
-conda activate tdd
-python -m uvicorn Backend_fastapi_endpoint.main:api_app --host 127.0.0.1 --port 8000
+python -m uvicorn Backend.main:api_app --host 127.0.0.1 --port 8000
 ```
 
-In a second terminal, start the dashboard:
+Prediction endpoint:
+
+```text
+POST /predict
+```
+
+The endpoint accepts an uploaded image and returns detected class names,
+confidence scores, and pixel bounding boxes.
+
+## Frontend
+
+The frontend is a Streamlit dashboard in `Frontend/app.py`.
+
+Run locally after starting the backend:
 
 ```powershell
-conda activate tdd
-streamlit run Streamlit/app.py
+streamlit run Frontend/app.py
 ```
 
-Open the Streamlit URL shown in the terminal, normally
-`http://localhost:8501`. The dashboard sends uploaded JPG, JPEG, or PNG files
-to `POST http://127.0.0.1:8000/predict` using the multipart field `file`. The
-backend returns pixel-based `x1`, `y1`, `x2`, and `y2` coordinates, which the
-dashboard renders on the image with class names and confidence scores. The
-backend URL can be changed in the Streamlit sidebar.
+The dashboard uploads images to the FastAPI backend and displays detections on
+the image. It does not run YOLO inference locally.
 
-The frontend dependencies are listed in `Streamlit/requirements.txt`. The
-frontend does not require `torch`, `torchvision`, or `ultralytics`; those are
-backend inference dependencies.
+## Notes for GitHub
 
----
+The following are intentionally ignored and should remain in Drive/local storage:
 
-## Team
+- datasets and dataset zips
+- `content_runtime/`
+- `hazard_reports/`
+- images
+- `*.pt` checkpoints
+- generated JSON runtime outputs
+- YOLO `runs/`
 
-**Organization:** Devlogix Technology  
-**Project:** Textile Defect Detection — Hangzhou 2026 POC  
-**Contact:** ehtisham.malik5618@gmail.com
+## Contact
+
+GitHub username: `ehtisham5618`
+
+Email: `ehtisham.malik5618@gmail.com`

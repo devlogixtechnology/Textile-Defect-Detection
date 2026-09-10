@@ -1,9 +1,6 @@
-# =============================================
-# Textile Defect Detection — Hangzhou 2026 POC
-# .gitignore
-# =============================================
+# Textile Defect Detection - repository ignore rules
 
-# ── Dataset directories ──────────────────────
+# Dataset directories
 dataset/
 data/
 raw/
@@ -12,8 +9,14 @@ processed/
 processed_dataset/
 final_dataset/
 kaggle_cache/
+content_runtime/
+*/content_runtime/
+combined_dataset/
+*/combined_dataset/
+hazard_reports/
+*/hazard_reports/
 
-# ── Dataset file formats ─────────────────────
+# Dataset/image file formats
 *.jpg
 *.jpeg
 *.png
@@ -23,7 +26,7 @@ kaggle_cache/
 *.webp
 *.gif
 
-# ── Archive files ─────────────────────────────
+# Archive files
 *.zip
 *.tar
 *.tar.gz
@@ -31,14 +34,14 @@ kaggle_cache/
 *.7z
 *.rar
 
-# ── YOLO training output ──────────────────────
+# YOLO training output and checkpoints
 runs/
 weights/
 *.pt
 *.onnx
 *.engine
 
-# ── Kaggle & Google credentials ──────────────
+# Kaggle, Google, and local credentials
 kaggle.json
 *.json
 !package.json
@@ -48,11 +51,11 @@ service_account*.json
 .env
 .env.*
 
-# ── Notebook checkpoints ─────────────────────
+# Notebook checkpoints
 .ipynb_checkpoints/
 */.ipynb_checkpoints/
 
-# ── Python cache ──────────────────────────────
+# Python cache/build output
 __pycache__/
 *.pyc
 *.pyo
@@ -63,18 +66,18 @@ dist/
 build/
 *.egg
 
-# ── OS artifacts ──────────────────────────────
+# OS artifacts
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# ── Editor & IDE ──────────────────────────────
+# Editor and IDE files
 .idea/
 *.swp
 *.swo
 *~
 
-# ── Temporary / scratch ───────────────────────
+# Temporary/scratch files
 tmp/
 temp/
 scratch/
