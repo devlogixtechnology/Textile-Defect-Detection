@@ -1,0 +1,42 @@
+# Calibrated against the frame-replay temporal benchmark.
+# Smoke and water-leak thresholds are raised to suppress sustained cross-class
+# false alerts while preserving 0 missed true violations on the benchmark.
+default_confidence: 0.25
+process_fps: 5.0
+alert_classes:
+  - chemical hazard
+  - fire
+  - no helmet
+  - smoke
+  - water leak
+classes:
+  chemical hazard:
+    confidence: 0.25
+    window_size: 5
+    required_frames: 3
+    cooldown_frames: 10
+    clear_frames: 5
+  fire:
+    confidence: 0.25
+    window_size: 5
+    required_frames: 3
+    cooldown_frames: 10
+    clear_frames: 5
+  no helmet:
+    confidence: 0.25
+    window_size: 5
+    required_frames: 3
+    cooldown_frames: 10
+    clear_frames: 5
+  smoke:
+    confidence: 0.50
+    window_size: 5
+    required_frames: 3
+    cooldown_frames: 10
+    clear_frames: 5
+  water leak:
+    confidence: 0.50
+    window_size: 5
+    required_frames: 3
+    cooldown_frames: 10
+    clear_frames: 5

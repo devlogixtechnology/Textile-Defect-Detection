@@ -1,0 +1,40 @@
+default_confidence: 0.25
+process_fps: 5.0
+alert_classes:
+  - chemical hazard
+  - fire
+  - no helmet
+  - smoke
+  - water leak
+classes:
+  chemical hazard:
+    confidence: 0.25
+    window_size: 1
+    required_frames: 1
+    cooldown_frames: 0
+    clear_frames: 1
+  fire:
+    confidence: 0.25
+    window_size: 1
+    required_frames: 1
+    cooldown_frames: 0
+    clear_frames: 1
+  no helmet:
+    confidence: 0.25
+    window_size: 1
+    required_frames: 1
+    cooldown_frames: 0
+    clear_frames: 1
+  smoke:
+    confidence: 0.25
+    window_size: 1
+    required_frames: 1
+    cooldown_frames: 0
+    clear_frames: 1
+  water leak:
+    confidence: 0.25
+    window_size: 1
+    required_frames: 1
+    cooldown_frames: 0
+    clear_frames: 1
+

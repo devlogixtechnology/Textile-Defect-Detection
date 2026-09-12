@@ -45,6 +45,7 @@ weights/
 kaggle.json
 *.json
 !package.json
+!Confidence_Calibration/benchmark/annotations/*.json
 token.json
 credentials.json
 service_account*.json
@@ -86,3 +87,9 @@ scratch/
 branch_structure.json
 temp_auto_push.bat
 temp_interactive_push.bat
+
+# CME-2 temporal benchmark local media and generated outputs
+Confidence_Calibration/benchmark/media/
+Confidence_Calibration/benchmark/clips/
+Confidence_Calibration/outputs/
+Confidence_Calibration/reports/*.tmp.*
