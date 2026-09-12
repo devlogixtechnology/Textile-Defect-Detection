@@ -37,6 +37,12 @@ Textile-Defect-Detection/
 |   |-- app.py
 |   |-- README.md
 |   `-- requirements.txt
+|-- Confidence_Calibration/
+|   |-- configs/
+|   |-- scripts/
+|   |-- benchmark/
+|   |-- reports/
+|   `-- tests/
 |-- Hazard_Expansion/
 |   |-- 01_prepare_combined_dataset.ipynb
 |   |-- 02_improve_existing_model.ipynb
@@ -156,6 +162,36 @@ Primary weak classes:
 - `chemical hazard`: 49.1% AP@50
 - `smoke`: 57.3% AP@50
 
+### 4. Confidence Calibration and False-Positive Reduction
+
+CME-2 lives in:
+
+```text
+Confidence_Calibration/
+```
+
+It adds an alert-policy layer around the expanded 12-class model without
+retraining. The baseline config represents the existing behavior: a single YOLO
+detection is enough to alert. The calibrated config adds per-class thresholds
+and temporal confirmation for the hazard classes.
+
+Benchmark status: measured. The frame-replay temporal benchmark passes the
+CME-2 DoD with `75%` false-alert reduction and `0` missed true violations.
+Public Wikimedia clips were also audited and documented separately; they expose
+base-model domain shift rather than alert-policy failure.
+
+The benchmark media folder is ignored by Git:
+
+```text
+Confidence_Calibration/benchmark/media/
+```
+
+The detailed benchmark report is in:
+
+```text
+Confidence_Calibration/reports/benchmark_report.md
+```
+
 ## Backend
 
 The backend is a FastAPI app in `Backend/main.py`. It loads `Backend/best.pt`,
@@ -175,6 +211,15 @@ POST /predict
 
 The endpoint accepts an uploaded image and returns detected class names,
 confidence scores, and pixel bounding boxes.
+
+Optional CME-2 alert policy:
+
+```text
+POST /predict?apply_alert_policy=true&frame_index=0&timestamp_sec=0.0
+```
+
+This preserves raw detections and adds an `alert_policy` object with calibrated
+detections and confirmed temporal alerts.
 
 ## Frontend
 
