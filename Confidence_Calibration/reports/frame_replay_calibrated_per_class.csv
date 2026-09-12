@@ -1,0 +1,6 @@
+class,total_true_events,true_events_detected,missed_events,false_alert_events,precision,recall,mean_latency_sec
+chemical hazard,2,2,0,0,1.0,1.0,2.0
+fire,2,2,0,1,0.6666666666666666,1.0,2.0
+no helmet,2,2,0,0,1.0,1.0,2.0
+smoke,2,2,0,0,1.0,1.0,2.0
+water leak,2,2,0,0,1.0,1.0,2.0

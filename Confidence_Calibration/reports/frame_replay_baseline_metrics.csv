@@ -1,0 +1,2 @@
+total_true_events,true_events_detected,missed_events,false_alert_events,false_alert_rate_per_min,precision,recall,mean_latency_sec
+10,10,0,4,4.363636363636364,0.7142857142857143,1.0,0.0

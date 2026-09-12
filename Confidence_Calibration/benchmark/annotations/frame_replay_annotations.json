@@ -1,0 +1,152 @@
+{
+  "clips": [
+    {
+      "clip": "chemical_hazard_01_frame_replay",
+      "duration_sec": 5.0,
+      "source_url": "local combined_dataset extracted from project Drive",
+      "license": "project dataset license; see Drive/source dataset documentation",
+      "attribution": "Hazard_Expansion\\content_runtime\\combined_dataset\\images\\val\\hazard_Water_Leaks_water116_jpg.rf.ba4175c91379e74ceece5f300788bece.jpg",
+      "events": [
+        {
+          "class": "chemical hazard",
+          "start_sec": 0.0,
+          "end_sec": 5.0
+        }
+      ]
+    },
+    {
+      "clip": "chemical_hazard_02_frame_replay",
+      "duration_sec": 5.0,
+      "source_url": "local combined_dataset extracted from project Drive",
+      "license": "project dataset license; see Drive/source dataset documentation",
+      "attribution": "Hazard_Expansion\\content_runtime\\combined_dataset\\images\\val\\hazard_Water_Leaks_water123_jpg.rf.5d25317d701c7cd198a23c2a7a215d41.jpg",
+      "events": [
+        {
+          "class": "chemical hazard",
+          "start_sec": 0.0,
+          "end_sec": 5.0
+        }
+      ]
+    },
+    {
+      "clip": "fire_01_frame_replay",
+      "duration_sec": 5.0,
+      "source_url": "local combined_dataset extracted from project Drive",
+      "license": "project dataset license; see Drive/source dataset documentation",
+      "attribution": "Hazard_Expansion\\content_runtime\\combined_dataset\\images\\val\\hazard_Fire_hazards_firehazard108_jpg.rf.4b97d41275cc7344de32b6f7681685ad.jpg",
+      "events": [
+        {
+          "class": "fire",
+          "start_sec": 0.0,
+          "end_sec": 5.0
+        }
+      ]
+    },
+    {
+      "clip": "fire_02_frame_replay",
+      "duration_sec": 5.0,
+      "source_url": "local combined_dataset extracted from project Drive",
+      "license": "project dataset license; see Drive/source dataset documentation",
+      "attribution": "Hazard_Expansion\\content_runtime\\combined_dataset\\images\\val\\hazard_Fire_hazards_firehazard122_jpg.rf.691d919f19cebaa7fcc87444fb9f593e.jpg",
+      "events": [
+        {
+          "class": "fire",
+          "start_sec": 0.0,
+          "end_sec": 5.0
+        }
+      ]
+    },
+    {
+      "clip": "no_helmet_01_frame_replay",
+      "duration_sec": 5.0,
+      "source_url": "local combined_dataset extracted from project Drive",
+      "license": "project dataset license; see Drive/source dataset documentation",
+      "attribution": "Hazard_Expansion\\content_runtime\\combined_dataset\\images\\val\\hazard_Fire_hazards_firehazard251_jpg.rf.9207d18ec3c084a9121f1983d35f35e4.jpg",
+      "events": [
+        {
+          "class": "no helmet",
+          "start_sec": 0.0,
+          "end_sec": 5.0
+        }
+      ]
+    },
+    {
+      "clip": "no_helmet_02_frame_replay",
+      "duration_sec": 5.0,
+      "source_url": "local combined_dataset extracted from project Drive",
+      "license": "project dataset license; see Drive/source dataset documentation",
+      "attribution": "Hazard_Expansion\\content_runtime\\combined_dataset\\images\\val\\hazard_No_helmet_nohelmet102_jpg.rf.7ad1b0b1e5a8c00df4262f8a09503165.jpg",
+      "events": [
+        {
+          "class": "no helmet",
+          "start_sec": 0.0,
+          "end_sec": 5.0
+        }
+      ]
+    },
+    {
+      "clip": "smoke_01_frame_replay",
+      "duration_sec": 5.0,
+      "source_url": "local combined_dataset extracted from project Drive",
+      "license": "project dataset license; see Drive/source dataset documentation",
+      "attribution": "Hazard_Expansion\\content_runtime\\combined_dataset\\images\\val\\hazard_Chimney_smoke_smokehazard102_jpg.rf.d925c18a17f0d6f4a2d18787fddfd9c2.jpg",
+      "events": [
+        {
+          "class": "smoke",
+          "start_sec": 0.0,
+          "end_sec": 5.0
+        }
+      ]
+    },
+    {
+      "clip": "smoke_02_frame_replay",
+      "duration_sec": 5.0,
+      "source_url": "local combined_dataset extracted from project Drive",
+      "license": "project dataset license; see Drive/source dataset documentation",
+      "attribution": "Hazard_Expansion\\content_runtime\\combined_dataset\\images\\val\\hazard_Chimney_smoke_smokehazard111_jpg.rf.3ff9ad4f96ff603d2e568dd25061a39e.jpg",
+      "events": [
+        {
+          "class": "smoke",
+          "start_sec": 0.0,
+          "end_sec": 5.0
+        }
+      ]
+    },
+    {
+      "clip": "water_leak_01_frame_replay",
+      "duration_sec": 5.0,
+      "source_url": "local combined_dataset extracted from project Drive",
+      "license": "project dataset license; see Drive/source dataset documentation",
+      "attribution": "Hazard_Expansion\\content_runtime\\combined_dataset\\images\\val\\hazard_Water_Leaks_water137_jpg.rf.e5c0512c0e5353d343633702cda2240a.jpg",
+      "events": [
+        {
+          "class": "water leak",
+          "start_sec": 0.0,
+          "end_sec": 5.0
+        }
+      ]
+    },
+    {
+      "clip": "water_leak_02_frame_replay",
+      "duration_sec": 5.0,
+      "source_url": "local combined_dataset extracted from project Drive",
+      "license": "project dataset license; see Drive/source dataset documentation",
+      "attribution": "Hazard_Expansion\\content_runtime\\combined_dataset\\images\\val\\hazard_Water_Leaks_water145_jpg.rf.97937b7093720d4c6059d540b2e1a7b9.jpg",
+      "events": [
+        {
+          "class": "water leak",
+          "start_sec": 0.0,
+          "end_sec": 5.0
+        }
+      ]
+    },
+    {
+      "clip": "negative_hazard_false_positive_spike_frame_replay",
+      "duration_sec": 5.0,
+      "source_url": "local combined_dataset extracted from project Drive",
+      "license": "project dataset license; see Drive/source dataset documentation",
+      "attribution": "clean=Hazard_Expansion\\content_runtime\\combined_dataset\\images\\val\\textile_00002838_jpg.rf.afe37bdad2c625ff94c894d3040cabc1.jpg; false_positive=Hazard_Expansion\\content_runtime\\combined_dataset\\images\\val\\textile_IMG_20230727_114152_jpg.rf.77a0aac9117745acf980e99d2c638215.jpg",
+      "events": []
+    }
+  ]
+}

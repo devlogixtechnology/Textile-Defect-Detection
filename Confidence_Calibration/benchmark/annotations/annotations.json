@@ -1,0 +1,144 @@
+{
+  "clips": [
+    {
+      "clip": "fire_01_campfire.ogv",
+      "duration_sec": 9.44,
+      "source_url": "https://commons.wikimedia.org/wiki/File:Fire.ogv",
+      "license": "Public domain",
+      "attribution": "Cary Bass",
+      "events": [
+        {
+          "class": "fire",
+          "start_sec": 0.0,
+          "end_sec": 9.44
+        }
+      ]
+    },
+    {
+      "clip": "fire_02_burning_timber.ogv",
+      "duration_sec": 11.16,
+      "source_url": "https://commons.wikimedia.org/wiki/File:Fire_burning.ogv",
+      "license": "CC BY-SA 4.0 / 3.0 / 2.5 / 2.0 / 1.0 or GFDL",
+      "attribution": "Zouavman Le Zouave",
+      "events": [
+        {
+          "class": "fire",
+          "start_sec": 0.0,
+          "end_sec": 11.16
+        }
+      ]
+    },
+    {
+      "clip": "smoke_01_us_navy_rq4.webm",
+      "duration_sec": 15.58,
+      "source_url": "https://commons.wikimedia.org/wiki/File:U.S._Navy_RQ-4_smoke.webm",
+      "license": "Public domain / U.S. federal government",
+      "attribution": "U.S. Navy / U.S. federal government",
+      "events": [
+        {
+          "class": "smoke",
+          "start_sec": 0.0,
+          "end_sec": 15.58
+        }
+      ]
+    },
+    {
+      "clip": "smoke_02_cira_smoky_skies.webm",
+      "duration_sec": 3.4,
+      "source_url": "https://commons.wikimedia.org/wiki/File:Smoke_Fills_Skies_over_the_United_States_(CIRA_2024-07-23_-_nolabels).webm",
+      "license": "Public domain / NOAA materials",
+      "attribution": "CSU/CIRA and NOAA",
+      "events": [
+        {
+          "class": "smoke",
+          "start_sec": 0.0,
+          "end_sec": 3.4
+        }
+      ]
+    },
+    {
+      "clip": "water_leak_01_dripping_bucket.webm",
+      "duration_sec": 19.65,
+      "source_url": "https://commons.wikimedia.org/wiki/File:Water_Dripping_into_a_Bucket_in_a_Derelict_Apartment_in_Canada.webm",
+      "license": "CC BY 4.0",
+      "attribution": "Gogerr",
+      "events": [
+        {
+          "class": "water leak",
+          "start_sec": 0.0,
+          "end_sec": 19.65
+        }
+      ]
+    },
+    {
+      "clip": "water_leak_02_hoop_house_seam.webm",
+      "duration_sec": 45.14,
+      "source_url": "https://commons.wikimedia.org/wiki/File:Kluse_-_Water_dripping_through_foil_seam_of_hoop_house_v_01_ies.webm",
+      "license": "CC BY-SA 3.0 or GFDL",
+      "attribution": "Frank Vincentz",
+      "events": [
+        {
+          "class": "water leak",
+          "start_sec": 0.0,
+          "end_sec": 45.14
+        }
+      ]
+    },
+    {
+      "clip": "no_helmet_01_workers_roof.webm",
+      "duration_sec": 24.92,
+      "source_url": "https://commons.wikimedia.org/wiki/File:Workers_on_the_roof.webm",
+      "license": "CC BY-SA 2.0",
+      "attribution": "Eric Harrison",
+      "events": [
+        {
+          "class": "no helmet",
+          "start_sec": 0.0,
+          "end_sec": 24.92
+        }
+      ]
+    },
+    {
+      "clip": "no_helmet_02_historical_workers.webm",
+      "duration_sec": 324.32,
+      "source_url": "https://commons.wikimedia.org/wiki/File:Victorian-Edwardian_workers_caught_on_film_(1901).webm",
+      "license": "Public domain",
+      "attribution": "Mitchell and Kenyon / Wikimedia Commons",
+      "events": [
+        {
+          "class": "no helmet",
+          "start_sec": 5.0,
+          "end_sec": 324.32
+        }
+      ]
+    },
+    {
+      "clip": "chemical_hazard_01_hazmat_training.webm",
+      "duration_sec": 65.54,
+      "source_url": "https://commons.wikimedia.org/wiki/File:Vigilant_Guard_Hazmat_Training_DJtRRB-7EVU.webm",
+      "license": "Public domain / U.S. federal government",
+      "attribution": "U.S. Army",
+      "events": [
+        {
+          "class": "chemical hazard",
+          "start_sec": 10.0,
+          "end_sec": 65.54
+        }
+      ]
+    },
+    {
+      "clip": "chemical_hazard_02_bilateral_hazmat.webm",
+      "duration_sec": 53.05,
+      "source_url": "https://commons.wikimedia.org/wiki/File:Bilateral_HAZMAT_response_exercise-_B-roll_(999665).webm",
+      "license": "Public domain / U.S. federal government",
+      "attribution": "U.S. Marine Corps / U.S. federal government",
+      "events": [
+        {
+          "class": "chemical hazard",
+          "start_sec": 0.0,
+          "end_sec": 53.05
+        }
+      ]
+    }
+  ]
+}
