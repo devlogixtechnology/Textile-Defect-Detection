@@ -43,6 +43,13 @@ Textile-Defect-Detection/
 |   |-- benchmark/
 |   |-- reports/
 |   `-- tests/
+|-- Experiment_Tracking/
+|   |-- configs/
+|   |-- reports/
+|   |-- scripts/
+|   |-- experiments.csv
+|   |-- model_registry.csv
+|   `-- alert_policy_registry.csv
 |-- Hazard_Expansion/
 |   |-- 01_prepare_combined_dataset.ipynb
 |   |-- 02_improve_existing_model.ipynb
@@ -192,6 +199,52 @@ The detailed benchmark report is in:
 Confidence_Calibration/reports/benchmark_report.md
 ```
 
+### 5. Model Versioning and Experiment Tracking
+
+CME-3 lives in:
+
+```text
+Experiment_Tracking/
+```
+
+Sprint 4 tracking uses lightweight persistent registries in Git, with large
+weights and datasets kept in Google Drive. MLflow is optional for local UI
+inspection; the committed CSV/YAML files are the source of truth.
+
+Tracked registries:
+
+- `Experiment_Tracking/experiments.csv`
+- `Experiment_Tracking/model_registry.csv`
+- `Experiment_Tracking/alert_policy_registry.csv`
+
+Current pitch candidate:
+
+- Detector: `cme1-expanded-12class-v1`
+- Weights: `Backend/best.pt` locally and Drive
+  `Training_Results/Expanded_12-class_model/best.pt`
+- Alert policy: `cme2-alert-calibrated-v1`
+- Config: `Confidence_Calibration/configs/calibrated_thresholds.yaml`
+
+Open optional MLflow UI after installing the focused tracking dependency:
+
+```powershell
+python -m pip install -r Experiment_Tracking/requirements-mlflow.txt
+python Experiment_Tracking/scripts/backfill_existing_runs.py
+mlflow ui --backend-store-uri Experiment_Tracking/mlruns
+```
+
+Validate the registry:
+
+```powershell
+python Experiment_Tracking/scripts/validate_registry.py
+```
+
+Sprint 4 summary:
+
+```text
+Experiment_Tracking/reports/Sprint_4_Experiment_Summary.md
+```
+
 ## Backend
 
 The backend is a FastAPI app in `Backend/main.py`. It loads `Backend/best.pt`,
@@ -245,6 +298,7 @@ The following are intentionally ignored and should remain in Drive/local storage
 - `*.pt` checkpoints
 - generated JSON runtime outputs
 - YOLO `runs/`
+- `Experiment_Tracking/mlruns/`
 
 ## Contact
 
