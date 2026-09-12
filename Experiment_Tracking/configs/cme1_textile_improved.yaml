@@ -1,0 +1,23 @@
+run_id: CME1-EXP-001
+model_version: cme1-textile-improved-v1
+sprint: Sprint 4
+task: CME-1
+stage: Improved Textile Training
+model_architecture: YOLOv8s
+dataset: final_dataset
+dataset_version: textile_defect_yolov8_final
+num_classes: 7
+epochs: 50
+batch_size: -1 auto-batch
+imgsz: 640
+optimizer: SGD
+learning_rate: 0.01
+final_lr_factor: 0.01
+weight_decay: not recorded
+patience: 10
+seed: not recorded
+device: 0
+environment: Google Colab T4
+source_notebook: Hazard_Expansion/02_improve_existing_model.ipynb
+best_weight_uri: Hazard_Expansion/content_runtime/improved_model_results/best.pt
+metrics_source: Hazard_Expansion/content_runtime/improved_model_results/results.json

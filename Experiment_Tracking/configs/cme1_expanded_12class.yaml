@@ -1,0 +1,33 @@
+run_id: CME1-EXP-003
+model_version: cme1-expanded-12class-v1
+sprint: Sprint 4
+task: CME-1
+stage: Hazard Expansion
+model_architecture: YOLOv8s
+dataset: combined_dataset
+dataset_version: combined_dataset.zip
+num_classes: 12
+phase_1:
+  epochs: 20
+  batch_size: -1 auto-batch
+  imgsz: 640
+  optimizer: SGD
+  learning_rate: 0.005
+  final_lr_factor: 0.1
+  patience: 20
+  freeze_layers: first 10 layers
+phase_2:
+  epochs: 60
+  batch_size: -1 auto-batch
+  imgsz: 640
+  optimizer: SGD
+  learning_rate: 0.01
+  final_lr_factor: 0.01
+  patience: 15
+weight_decay: not recorded
+seed: not recorded
+device: 0
+environment: friend laptop / exported to Drive
+source_notebook: Hazard_Expansion/03_train_expanded_model.ipynb
+best_weight_uri: Backend/best.pt
+metrics_source: Hazard_Expansion/content_runtime/expanded_model_results/expanded_12class_results.json

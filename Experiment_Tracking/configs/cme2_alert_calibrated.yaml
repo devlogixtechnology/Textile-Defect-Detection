@@ -1,0 +1,17 @@
+policy_version: cme2-alert-calibrated-v1
+sprint: Sprint 4
+task: CME-2
+detector_model_version: cme1-expanded-12class-v1
+threshold_config: Confidence_Calibration/configs/calibrated_thresholds.yaml
+sampling_fps: 1
+window_size: 5
+required_frames: 3
+cooldown: 10
+clear_policy: clear_frames=5
+benchmark: frame_replay_temporal_benchmark
+false_alerts_before: 4
+false_alerts_after: 1
+fp_reduction_pct: 75.0
+missed_violations: 0
+mean_alert_latency: 2.0
+status: pitch_candidate

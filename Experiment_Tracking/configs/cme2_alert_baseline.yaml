@@ -1,0 +1,14 @@
+policy_version: cme2-alert-baseline-v1
+sprint: Sprint 4
+task: CME-2
+detector_model_version: cme1-expanded-12class-v1
+threshold_config: Confidence_Calibration/configs/baseline.yaml
+sampling_fps: 1
+window_size: 1
+required_frames: 1
+cooldown: 0
+clear_policy: clear_frames=1
+benchmark: frame_replay_temporal_benchmark
+false_alerts: 4
+missed_violations: 0
+mean_alert_latency: 0.0

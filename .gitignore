@@ -93,3 +93,7 @@ Confidence_Calibration/benchmark/media/
 Confidence_Calibration/benchmark/clips/
 Confidence_Calibration/outputs/
 Confidence_Calibration/reports/*.tmp.*
+
+# Experiment tracking generated/local state
+Experiment_Tracking/mlruns/
+Experiment_Tracking/exports/
