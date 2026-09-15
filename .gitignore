@@ -47,6 +47,7 @@ kaggle.json
 !package.json
 !Confidence_Calibration/benchmark/annotations/*.json
 !SED_1_Multi_Camera/reports/*.json
+!SED_2_Alert_Escalation/reports/*.json
 token.json
 credentials.json
 service_account*.json
@@ -94,6 +95,7 @@ Confidence_Calibration/benchmark/media/
 Confidence_Calibration/benchmark/clips/
 Confidence_Calibration/outputs/
 Confidence_Calibration/reports/*.tmp.*
+SED_2_Alert_Escalation/runtime/
 
 # Experiment tracking generated/local state
 Experiment_Tracking/mlruns/

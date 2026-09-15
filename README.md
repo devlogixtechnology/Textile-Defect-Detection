@@ -339,6 +339,68 @@ The measured 3-stream CPU run processed `10/104` eligible frames with `90.385%`
 unexpected drops. Run the same benchmark on the target CUDA/T4 environment
 before marking the `<5%` frame-drop performance requirement as passed.
 
+## 7. Real-Time Alert Escalation
+
+SED-2 lives in:
+
+```text
+SED_2_Alert_Escalation/
+```
+
+It adds a severity-tiered response layer after CME-2 confirmation and SED-1
+multi-camera routing:
+
+```text
+Confirmed violation -> SeverityEngine -> EscalationManager -> ActionDispatcher
+```
+
+Severity tiers:
+
+- `INFO`: structured log only
+- `WARNING`: structured log plus dashboard warning/flash state
+- `CRITICAL`: structured log, critical dashboard state, and safe mock IoT
+  shutdown simulation
+
+Configuration:
+
+```text
+SED_2_Alert_Escalation/configs/severity_rules.yaml
+SED_2_Alert_Escalation/configs/action_mapping.yaml
+```
+
+Policy version:
+
+```text
+SED2-alert-escalation-v1
+```
+
+The default safety rules cover:
+
+- `fire`
+- `smoke`
+- `water leak`
+- `chemical hazard`
+- `no helmet`
+
+The state machine is monotonic during one active event (`INFO -> WARNING ->
+CRITICAL`) and resolves only after the configured clear period. Geofence
+overrides are supported, and multi-camera events remain isolated by camera,
+hazard, and geofence. The mock IoT relay is software-only and never controls
+physical hardware.
+
+Validate SED-2:
+
+```powershell
+python -m unittest discover -s SED_2_Alert_Escalation\tests
+```
+
+Current deterministic validation result: `15` tests passed. The detailed report
+is in:
+
+```text
+SED_2_Alert_Escalation/reports/SED_2_Validation_Report.md
+```
+
 ## Notes for GitHub
 
 The following are intentionally ignored and should remain in Drive/local storage:

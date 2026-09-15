@@ -1,0 +1,41 @@
+{
+  "severity_policy_version": "SED2-alert-escalation-v1",
+  "test_command": "python -m unittest discover -s SED_2_Alert_Escalation\\tests",
+  "tests_run": 15,
+  "status": "PASS",
+  "validated_behaviors": {
+    "three_severity_tiers": "PASS",
+    "per_hazard_rules": "PASS",
+    "configurable_rules": "PASS",
+    "geofence_overrides": "PASS",
+    "state_machine_escalation": "PASS",
+    "no_premature_escalation": "PASS",
+    "info_log_action": "PASS",
+    "warning_log_dashboard_action": "PASS",
+    "critical_log_dashboard_iot_action": "PASS",
+    "critical_iot_idempotency": "PASS",
+    "mock_iot_reset": "PASS",
+    "multi_camera_isolation": "PASS",
+    "resolution_and_recurrence": "PASS",
+    "sed1_stream_manager_integration": "PASS"
+  },
+  "deterministic_three_tier_scenario": {
+    "cam_01": {
+      "hazard": "smoke",
+      "severity": "info",
+      "actions": ["log"]
+    },
+    "cam_02": {
+      "hazard": "no helmet",
+      "severity": "warning",
+      "actions": ["log", "dashboard_flash"]
+    },
+    "cam_03": {
+      "hazard": "fire",
+      "geofence_id": "response_zone",
+      "severity": "critical",
+      "actions": ["log", "dashboard_flash", "dashboard_critical", "mock_iot_shutdown"]
+    }
+  }
+}
+
