@@ -1,0 +1,173 @@
+{
+  "stress_version": "SED3-stress-v1",
+  "status": "completed",
+  "failure_reason": null,
+  "duration_seconds_configured": 1800.0,
+  "duration_seconds_measured": 1804.2181292999885,
+  "warmup_seconds": 60.0,
+  "stream_count": 3,
+  "detector_model_version": "cme1-expanded-12class-v1",
+  "alert_policy_version": "cme2-alert-calibrated-v1",
+  "multicamera_version": "SED1-multicam-v1",
+  "severity_policy_version": "SED2-alert-escalation-v1",
+  "device": "cpu",
+  "imgsz": 640,
+  "queue_size": 2,
+  "detector": "yolo",
+  "frames_processed": 635,
+  "eligible_frames": 18714,
+  "unexpected_drops": 18079,
+  "frame_drop_pct": 96.60681842470878,
+  "aggregate_fps": 0.35195300927741546,
+  "per_camera": {
+    "camera_01": {
+      "processed": 211,
+      "eligible": 8581,
+      "captured": 152934,
+      "configured_skips": 144353,
+      "unexpected_drops": 8370,
+      "drop_pct": 97.54107912830673,
+      "mean_fps": 0.11694816528745616,
+      "decode_failures": 0,
+      "status": "stopped",
+      "last_error": null
+    },
+    "camera_02": {
+      "processed": 212,
+      "eligible": 8317,
+      "captured": 74144,
+      "configured_skips": 65827,
+      "unexpected_drops": 8105,
+      "drop_pct": 97.45100396777684,
+      "mean_fps": 0.11750242199497965,
+      "decode_failures": 0,
+      "status": "stopped",
+      "last_error": null
+    },
+    "camera_03": {
+      "processed": 212,
+      "eligible": 1816,
+      "captured": 3590,
+      "configured_skips": 1774,
+      "unexpected_drops": 1604,
+      "drop_pct": 88.32599118942731,
+      "mean_fps": 0.11750242199497965,
+      "decode_failures": 0,
+      "status": "stopped",
+      "last_error": null
+    }
+  },
+  "inference_latency_ms": {
+    "mean": 2840.15950236156,
+    "p50": 2998.5274333351604,
+    "p95": 4151.811433325444,
+    "p99": 4925.965633330634,
+    "min": 425.56449997937307,
+    "max": 7814.6102000027895
+  },
+  "end_to_end_latency_ms": {
+    "mean": 9216.962743779473,
+    "p50": 9642.93830000679,
+    "p95": 13683.465800015256,
+    "p99": 15337.52370000002,
+    "min": 2416.03860000032,
+    "max": 18094.71589999157
+  },
+  "cpu": {
+    "mean_percent": 99.71512605042018,
+    "peak_percent": 100.0,
+    "process_mean_percent": 315.2299719887955,
+    "process_peak_percent": 364.0
+  },
+  "ram": {
+    "start_mb": 358.9453125,
+    "mean_mb": 1002.2734265581232,
+    "peak_mb": 1057.73828125,
+    "end_mb": 514.4609375
+  },
+  "gpu": {
+    "available": false,
+    "utilization_mean_percent": null,
+    "utilization_peak_percent": null,
+    "memory_start_mb": null,
+    "memory_mean_mb": null,
+    "memory_peak_mb": null,
+    "memory_end_mb": null
+  },
+  "stability": {
+    "exceptions": [],
+    "monitor_exceptions": [],
+    "worker_crashes": [],
+    "scheduler_alive_at_shutdown_sample": false,
+    "thread_count_start": 8,
+    "thread_count_peak": 38,
+    "thread_count_end": 9,
+    "queue_depth_mean": 5.8655462184873945,
+    "queue_depth_peak": 6.0,
+    "ram_growth": {
+      "leak_detected": false,
+      "reason": "slope=1.219 MB/min, final-window growth=26.493 MB, span=543.277 MB",
+      "slope_mb_per_min": 1.218661781916133
+    },
+    "gpu_memory_growth": {
+      "leak_detected": false,
+      "reason": "GPU telemetry unavailable",
+      "slope_mb_per_min": 0.0
+    },
+    "memory_leak_detected": false
+  },
+  "windows": [
+    {
+      "window": "0-5 min",
+      "mean_fps": 0.2802124628804322,
+      "mean_latency_ms": 10378.407405145139,
+      "p95_latency_ms": 13449.877300008666,
+      "mean_ram_mb": 964.3434895833333,
+      "mean_gpu_memory_mb": null
+    },
+    {
+      "window": "5-10 min",
+      "mean_fps": 0.28164730990836406,
+      "mean_latency_ms": 11099.908401170587,
+      "p95_latency_ms": 13349.651299999095,
+      "mean_ram_mb": 992.0818326271186,
+      "mean_gpu_memory_mb": null
+    },
+    {
+      "window": "10-15 min",
+      "mean_fps": 0.27106985603496003,
+      "mean_latency_ms": 11601.016180559409,
+      "p95_latency_ms": 14964.559799991548,
+      "mean_ram_mb": 997.8855270127119,
+      "mean_gpu_memory_mb": null
+    },
+    {
+      "window": "15-20 min",
+      "mean_fps": 0.32626471717592215,
+      "mean_latency_ms": 11993.620653549267,
+      "p95_latency_ms": 14964.559799991548,
+      "mean_ram_mb": 1009.8069661458334,
+      "mean_gpu_memory_mb": null
+    },
+    {
+      "window": "20-25 min",
+      "mean_fps": 0.47486262137114693,
+      "mean_latency_ms": 10724.692037732868,
+      "p95_latency_ms": 14964.559799991548,
+      "mean_ram_mb": 1016.3311197916667,
+      "mean_gpu_memory_mb": null
+    },
+    {
+      "window": "25-30 min",
+      "mean_fps": 0.44983878423485235,
+      "mean_latency_ms": 8765.365848016909,
+      "p95_latency_ms": 14712.345399981132,
+      "mean_ram_mb": 1030.1801589439656,
+      "mean_gpu_memory_mb": null
+    }
+  ],
+  "outputs": {
+    "timeseries_csv": "C:\\Users\\ehtis\\Desktop\\Textile Defect Detection\\SED_3_Stress_Testing\\reports\\stress_test_timeseries.csv",
+    "summary_json": "C:\\Users\\ehtis\\Desktop\\Textile Defect Detection\\SED_3_Stress_Testing\\reports\\stress_test_summary.json"
+  }
+}

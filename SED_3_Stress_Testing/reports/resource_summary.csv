@@ -1,0 +1,4 @@
+resource,start_mb,mean_mb,peak_mb,end_mb
+Process RAM MB,358.9453125,1002.2734265581232,1057.73828125,514.4609375
+CPU Utilization Percent,,99.71512605042018,100.0,
+GPU Memory MB,,,,
