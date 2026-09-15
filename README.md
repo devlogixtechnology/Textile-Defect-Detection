@@ -50,6 +50,21 @@ Textile-Defect-Detection/
 |   |-- experiments.csv
 |   |-- model_registry.csv
 |   `-- alert_policy_registry.csv
+|-- SED_1_Multi_Camera/
+|   |-- configs/
+|   |-- reports/
+|   |-- scripts/
+|   `-- tests/
+|-- SED_2_Alert_Escalation/
+|   |-- configs/
+|   |-- reports/
+|   |-- scripts/
+|   `-- tests/
+|-- SED_3_Stress_Testing/
+|   |-- configs/
+|   |-- reports/
+|   |-- scripts/
+|   `-- tests/
 |-- Hazard_Expansion/
 |   |-- 01_prepare_combined_dataset.ipynb
 |   |-- 02_improve_existing_model.ipynb
@@ -399,6 +414,51 @@ is in:
 
 ```text
 SED_2_Alert_Escalation/reports/SED_2_Validation_Report.md
+```
+
+## 8. Stress Testing & Latency Benchmarking
+
+SED-3 lives in:
+
+```text
+SED_3_Stress_Testing/
+```
+
+It benchmarks the current integrated pipeline:
+
+```text
+SED-1 streams -> CME-1 detector -> CME-2 confirmation
+-> SED-1 geofences -> SED-2 escalation
+```
+
+The committed local run is a real 3-stream, 30-minute CPU stress test:
+
+| Metric | Result |
+| --- | ---: |
+| Duration | 1804.22 s |
+| Streams | 3 |
+| Device | CPU |
+| Frames processed | 635 |
+| Aggregate FPS | 0.352 |
+| P95 inference latency | 4151.81 ms |
+| P95 end-to-end latency | 13683.47 ms |
+| Unexpected frame drop | 96.607% |
+| RAM peak | 1057.74 MB |
+| Crashes | 0 |
+| RAM leak evidence | none detected |
+
+This CPU-only run validates sustained stability and clean shutdown, but it does
+not support a literal zero-latency claim or a low-latency 3-stream performance
+claim on this hardware. GPU/T4 validation should be run separately with:
+
+```powershell
+python SED_3_Stress_Testing/scripts/run_stress_test.py --streams 3 --duration-seconds 1800 --warmup-seconds 60 --sample-interval 5 --device 0 --output-dir SED_3_Stress_Testing/reports
+```
+
+Report:
+
+```text
+SED_3_Stress_Testing/reports/SED_3_Benchmark_Report.md
 ```
 
 ## Notes for GitHub

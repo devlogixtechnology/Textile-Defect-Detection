@@ -25,6 +25,7 @@ hazard_reports/
 *.tiff
 *.webp
 *.gif
+!SED_3_Stress_Testing/reports/*.png
 
 # Archive files
 *.zip
@@ -48,6 +49,7 @@ kaggle.json
 !Confidence_Calibration/benchmark/annotations/*.json
 !SED_1_Multi_Camera/reports/*.json
 !SED_2_Alert_Escalation/reports/*.json
+!SED_3_Stress_Testing/reports/*.json
 token.json
 credentials.json
 service_account*.json
@@ -96,6 +98,7 @@ Confidence_Calibration/benchmark/clips/
 Confidence_Calibration/outputs/
 Confidence_Calibration/reports/*.tmp.*
 SED_2_Alert_Escalation/runtime/
+SED_3_Stress_Testing/reports/smoke_*/
 
 # Experiment tracking generated/local state
 Experiment_Tracking/mlruns/

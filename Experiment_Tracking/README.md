@@ -1,7 +1,9 @@
 # Model Versioning and Experiment Tracking
 
-This folder is the persistent Sprint 4 experiment registry for the Vision-Driven
-Industrial Safety & Quality Inspection Engine.
+This folder is the persistent experiment registry for the Vision-Driven
+Industrial Safety & Quality Inspection Engine. It began with Sprint 4 model and
+calibration tracking and now also records SED-1, SED-2, and SED-3 validation
+evidence.
 
 ## Tracking Backend
 
@@ -33,8 +35,8 @@ The local `Experiment_Tracking/mlruns/` directory is ignored by Git.
 
 ## Registries
 
-- `experiments.csv`: every evidence-backed Sprint 4 run plus the pre-Sprint
-  baseline reference.
+- `experiments.csv`: evidence-backed model, calibration, multi-camera,
+  escalation, and stress-test runs plus the pre-Sprint baseline reference.
 - `model_registry.csv`: deployable or meaningful detector model versions.
 - `alert_policy_registry.csv`: CME-2 alert-policy versions separated from model
   versions.
@@ -54,6 +56,12 @@ Alert-policy versions:
 
 - `cme2-alert-baseline-v1`: immediate detection-as-alert behavior
 - `cme2-alert-calibrated-v1`: calibrated threshold + temporal confirmation
+
+SED stack versions:
+
+- `SED1-multicam-v1`: multi-camera stream architecture
+- `SED2-alert-escalation-v1`: severity-tiered escalation policy
+- `SED3-stress-v1`: stress-test configuration/run version
 
 Pitch candidate:
 

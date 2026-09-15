@@ -7,11 +7,12 @@ from pathlib import Path
 
 
 VALID_SPRINTS = {"Pre-Sprint-4", "Sprint 4", "Sprint 5"}
-VALID_TASKS = {"Baseline", "CME-1", "CME-2", "CME-3", "SED-1", "SED-2"}
+VALID_TASKS = {"Baseline", "CME-1", "CME-2", "CME-3", "SED-1", "SED-2", "SED-3"}
 MODEL_EXPERIMENT_TYPES = {"model_training"}
 CALIBRATION_EXPERIMENT_TYPES = {"calibration"}
 STREAM_BENCHMARK_TYPES = {"stream_benchmark"}
 ESCALATION_TEST_TYPES = {"alert_escalation"}
+STRESS_TEST_TYPES = {"stress_test"}
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -98,6 +99,13 @@ def validate(root: Path) -> int:
                 errors.append(f"{run_id}: escalation run missing severity config reference")
             if is_missing(row.get("source_script")):
                 errors.append(f"{run_id}: escalation run missing source_script")
+        if row["experiment_type"] in STRESS_TEST_TYPES:
+            if row["model_version"] not in model_versions:
+                errors.append(f"{run_id}: stress test detector model_version missing from model registry")
+            if row["alert_policy_version"] not in policy_versions:
+                errors.append(f"{run_id}: stress test alert_policy_version missing from alert policy registry")
+            if is_missing(row.get("source_script")):
+                errors.append(f"{run_id}: stress test missing source_script")
 
     for row in policies:
         version = row["policy_version"]

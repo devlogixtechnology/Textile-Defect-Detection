@@ -2,9 +2,9 @@
 
 ## Purpose
 
-This Streamlit dashboard provides a simple UI for uploading textile or
-industrial-scene images and visualizing detections returned by the FastAPI
-backend.
+This Streamlit dashboard provides a UI for uploading textile or industrial-scene
+images, visualizing detections returned by the FastAPI backend, and monitoring
+the SED-1/SED-2 multi-camera alert state.
 
 ## Architecture
 
@@ -14,6 +14,12 @@ Frontend Streamlit
 FastAPI /predict
   |
 YOLOv8 model
+
+Multi-Camera tab
+  |
+FastAPI camera / alert / mock-IoT endpoints
+  |
+SED-1 stream manager + SED-2 escalation state
 ```
 
 ## Prerequisites
@@ -50,3 +56,5 @@ streamlit run Frontend/app.py
 4. Upload a JPG, JPEG, or PNG image.
 5. Click `Detect Defects`.
 6. Review the annotated image and detection table.
+7. Use the `Multi-Camera Monitor` tab to view stream status, active SED-2
+   severity states, and the simulated mock-IoT relay state.
