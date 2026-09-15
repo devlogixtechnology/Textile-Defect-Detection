@@ -4,6 +4,7 @@ import logging
 import sys
 from pathlib import Path
 from typing import Optional
+from dataclasses import asdict
 
 from fastapi import FastAPI, File, UploadFile, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
@@ -18,6 +19,15 @@ try:
 except Exception:  # pragma: no cover - backend can still serve raw detections
     AlertPolicy = None
     load_policy_config = None
+
+try:
+    from SED_1_Multi_Camera.scripts.config import load_camera_configs
+    from SED_1_Multi_Camera.scripts.detector import SharedYOLODetector
+    from SED_1_Multi_Camera.scripts.stream_manager import MultiCameraStreamManager
+except Exception:  # pragma: no cover - optional SED-1 demo layer
+    load_camera_configs = None
+    SharedYOLODetector = None
+    MultiCameraStreamManager = None
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -35,6 +45,8 @@ MODEL = None
 MODEL_PATH: Optional[Path] = None
 ALERT_POLICY = None
 ALERT_CONFIG_PATH = PROJECT_ROOT / "Confidence_Calibration" / "configs" / "calibrated_thresholds.yaml"
+CAMERA_CONFIG_PATH = PROJECT_ROOT / "SED_1_Multi_Camera" / "configs" / "cameras.yaml"
+STREAM_MANAGER = None
 
 
 def find_model_path() -> Optional[Path]:
@@ -70,6 +82,12 @@ def load_model_on_startup():
         except Exception as e:
             ALERT_POLICY = None
             logger.warning(f"Failed to load alert policy from {ALERT_CONFIG_PATH}: {e}")
+
+
+def _require_stream_manager():
+    if STREAM_MANAGER is None:
+        raise HTTPException(status_code=404, detail="Multi-camera streams are not running. Call POST /streams/start first.")
+    return STREAM_MANAGER
 
 
 @api_app.post("/predict")
@@ -128,3 +146,96 @@ async def predict(
             os.remove(tmp_path)
         except Exception:
             pass
+
+
+@api_app.get("/cameras")
+def list_cameras():
+    if load_camera_configs is None:
+        raise HTTPException(status_code=503, detail="SED-1 camera configuration loader is not available.")
+    try:
+        cameras = load_camera_configs(CAMERA_CONFIG_PATH)
+    except Exception as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    statuses = {status.camera_id: asdict(status) for status in STREAM_MANAGER.statuses()} if STREAM_MANAGER else {}
+    return {
+        "cameras": [
+            {
+                "camera_id": camera.camera_id,
+                "name": camera.name,
+                "source": camera.source,
+                "enabled": camera.enabled,
+                "monitored_classes": sorted(camera.monitored_classes),
+                "geofences": [
+                    {
+                        "id": geofence.id,
+                        "enabled": geofence.enabled,
+                        "classes": sorted(geofence.classes),
+                        "polygon": geofence.polygon,
+                    }
+                    for geofence in camera.geofences
+                ],
+                "status": statuses.get(camera.camera_id),
+            }
+            for camera in cameras
+        ]
+    }
+
+
+@api_app.post("/streams/start")
+def start_streams(
+    streams: int = Query(3, ge=1, le=4),
+    queue_size: int = Query(2, ge=1, le=16),
+    imgsz: int = Query(640, ge=160, le=1280),
+    device: Optional[str] = Query(None),
+):
+    global STREAM_MANAGER
+    if MODEL_PATH is None:
+        raise HTTPException(status_code=503, detail="Model checkpoint is not available.")
+    if any(component is None for component in (load_camera_configs, SharedYOLODetector, MultiCameraStreamManager, AlertPolicy, load_policy_config)):
+        raise HTTPException(status_code=503, detail="SED-1 stream dependencies are not available.")
+    if STREAM_MANAGER is not None:
+        STREAM_MANAGER.stop()
+    cameras = load_camera_configs(CAMERA_CONFIG_PATH, limit=streams)
+    detector = SharedYOLODetector(MODEL_PATH, device=device, imgsz=imgsz)
+    STREAM_MANAGER = MultiCameraStreamManager(
+        cameras,
+        detector,
+        alert_policy_factory=lambda: AlertPolicy(load_policy_config(ALERT_CONFIG_PATH)),
+        queue_size=queue_size,
+        micro_batch=True,
+    )
+    STREAM_MANAGER.start()
+    return {"status": "started", "streams": len(cameras), "queue_size": queue_size, "imgsz": imgsz}
+
+
+@api_app.post("/streams/stop")
+def stop_streams():
+    global STREAM_MANAGER
+    manager = _require_stream_manager()
+    manager.stop()
+    STREAM_MANAGER = None
+    return {"status": "stopped"}
+
+
+@api_app.get("/cameras/{camera_id}/status")
+def camera_status(camera_id: str):
+    manager = _require_stream_manager()
+    for status in manager.statuses():
+        if status.camera_id == camera_id:
+            return asdict(status)
+    raise HTTPException(status_code=404, detail=f"Unknown camera: {camera_id}")
+
+
+@api_app.get("/cameras/{camera_id}/latest")
+def camera_latest(camera_id: str):
+    manager = _require_stream_manager()
+    result = manager.latest_results.get(camera_id)
+    if result is None:
+        raise HTTPException(status_code=404, detail=f"No result is available for {camera_id} yet.")
+    return asdict(result)
+
+
+@api_app.get("/alerts")
+def list_alerts(limit: int = Query(50, ge=1, le=500)):
+    manager = _require_stream_manager()
+    return {"alerts": manager.active_alerts[-limit:]}
