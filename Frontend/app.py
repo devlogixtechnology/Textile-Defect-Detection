@@ -30,7 +30,7 @@ st.info(f"FastAPI Backend: {status_text}")
 image_tab, camera_tab = st.tabs(["Image Inference", "Multi-Camera Monitor"])
 
 with camera_tab:
-    st.subheader("SED-1 Multi-Camera Monitor")
+    st.subheader("SED-1 / SED-2 Multi-Camera Monitor")
     controls = st.columns([1, 1, 2])
     stream_count = controls[0].selectbox("Streams", [1, 2, 3, 4], index=2)
     queue_size = controls[1].number_input("Queue size", min_value=1, max_value=16, value=2)
@@ -60,6 +60,16 @@ with camera_tab:
         cameras_response = requests.get(backend_url.rstrip("/") + "/cameras", timeout=(3, 10))
         if cameras_response.status_code == 200:
             cameras = cameras_response.json().get("cameras", [])
+            active_events = []
+            camera_severity = {}
+            try:
+                active_response = requests.get(backend_url.rstrip("/") + "/alerts/active", timeout=(3, 10))
+                if active_response.status_code == 200:
+                    active_payload = active_response.json()
+                    active_events = active_payload.get("events", [])
+                    camera_severity = active_payload.get("camera_overall_severity", {})
+            except requests.RequestException:
+                active_events = []
             status_rows = []
             for camera in cameras:
                 status = camera.get("status") or {}
@@ -71,10 +81,23 @@ with camera_tab:
                         "Processed": status.get("processed", 0),
                         "FPS": round(float(status.get("processed_fps", 0.0)), 2),
                         "Drop %": round(float(status.get("drop_rate_pct", 0.0)), 2),
+                        "Severity": camera_severity.get(camera["camera_id"], "normal").upper(),
                         "Classes": ", ".join(camera.get("monitored_classes", [])),
                     }
                 )
             st.table(status_rows)
+            critical_events = [event for event in active_events if event.get("severity") == "critical"]
+            warning_events = [event for event in active_events if event.get("severity") == "warning"]
+            info_events = [event for event in active_events if event.get("severity") == "info"]
+            if critical_events:
+                st.error("SIMULATED SAFETY SHUTDOWN TRIGGERED")
+                st.table(critical_events)
+            if warning_events:
+                st.warning("Active warning-level safety events")
+                st.table(warning_events)
+            if info_events:
+                st.info("Active info-level safety events")
+                st.table(info_events)
         else:
             st.warning("Camera configuration is not available from the backend.")
     except requests.RequestException:
@@ -83,9 +106,24 @@ with camera_tab:
     try:
         alerts_response = requests.get(backend_url.rstrip("/") + "/alerts", timeout=(3, 10))
         if alerts_response.status_code == 200:
-            alerts = alerts_response.json().get("alerts", [])
-            st.subheader("Recent Alerts")
+            payload = alerts_response.json()
+            alerts = payload.get("sed2_active_events", [])
+            cme2_alerts = payload.get("cme2_alerts", [])
+            st.subheader("Active SED-2 Alerts")
             st.table(alerts[-10:] if alerts else [])
+            st.subheader("Recent CME-2 Confirmations")
+            st.table(cme2_alerts[-10:] if cme2_alerts else [])
+    except requests.RequestException:
+        pass
+
+    try:
+        iot_response = requests.get(backend_url.rstrip("/") + "/iot/status", timeout=(3, 10))
+        if iot_response.status_code == 200:
+            iot = iot_response.json()
+            if iot.get("state") == "SHUTDOWN_TRIGGERED":
+                st.error(f"Mock IoT relay: {iot.get('state')} ({iot.get('trigger_count')} trigger)")
+            else:
+                st.caption(f"Mock IoT relay: {iot.get('state', 'not started')}")
     except requests.RequestException:
         pass
 

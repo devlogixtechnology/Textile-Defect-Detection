@@ -47,6 +47,7 @@ class DetectionResult:
     detections: list[dict[str, Any]]
     calibrated_detections: list[dict[str, Any]] = field(default_factory=list)
     alerts: list[dict[str, Any]] = field(default_factory=list)
+    escalations: list[dict[str, Any]] = field(default_factory=list)
     geofence_matches: list[dict[str, Any]] = field(default_factory=list)
     inference_time: float = 0.0
     processing_time: float = 0.0

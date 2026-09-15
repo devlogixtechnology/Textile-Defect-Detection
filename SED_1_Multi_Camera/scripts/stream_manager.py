@@ -101,6 +101,7 @@ class MultiCameraStreamManager:
         cameras: list[CameraConfig],
         detector: Any,
         alert_policy_factory: Callable[[], Any] | None = None,
+        escalation_manager: Any | None = None,
         queue_size: int = 2,
         micro_batch: bool = True,
         source_factory: Callable[[CameraConfig], CameraSource] | None = None,
@@ -110,10 +111,12 @@ class MultiCameraStreamManager:
         self.alert_policies = {
             camera_id: alert_policy_factory() if alert_policy_factory else None for camera_id in self.cameras
         }
+        self.escalation_manager = escalation_manager
         self.queues = {camera_id: queue.Queue(maxsize=queue_size) for camera_id in self.cameras}
         self.metrics = {camera_id: CameraMetrics() for camera_id in self.cameras}
         self.latest_results: dict[str, DetectionResult] = {}
         self.active_alerts: list[dict[str, Any]] = []
+        self.active_escalations: list[dict[str, Any]] = []
         self.micro_batch = micro_batch
         self.source_factory = source_factory
         self.stop_event = threading.Event()
@@ -213,6 +216,7 @@ class MultiCameraStreamManager:
         policy = self.alert_policies.get(packet.camera_id)
         calibrated = geofenced
         alerts: list[dict[str, Any]] = []
+        escalations: list[dict[str, Any]] = []
         if policy is not None:
             policy_result = policy.process_frame(geofenced, frame_index=packet.frame_id, timestamp_sec=packet.timestamp)
             calibrated = policy_result.get("calibrated_detections", [])
@@ -220,6 +224,16 @@ class MultiCameraStreamManager:
             for alert in alerts:
                 alert["camera_id"] = packet.camera_id
                 alert["camera_name"] = camera.name
+        if self.escalation_manager is not None and policy is not None:
+            active_violations = self._confirmed_violations(policy, calibrated)
+            escalations = [
+                event.to_dict()
+                for event in self.escalation_manager.process_frame(
+                    packet.camera_id,
+                    active_violations,
+                    timestamp=packet.timestamp,
+                )
+            ]
         latency = perf_counter() - packet.capture_time
         result = DetectionResult(
             camera_id=packet.camera_id,
@@ -228,6 +242,7 @@ class MultiCameraStreamManager:
             detections=detections,
             calibrated_detections=calibrated,
             alerts=alerts,
+            escalations=escalations,
             geofence_matches=matches,
             inference_time=inference_time,
             processing_time=processing_time,
@@ -242,6 +257,26 @@ class MultiCameraStreamManager:
         with self.result_lock:
             self.latest_results[packet.camera_id] = result
             self.active_alerts.extend(alerts)
+            if self.escalation_manager is not None:
+                self.active_escalations = self.escalation_manager.active_events()
+
+    @staticmethod
+    def _confirmed_violations(policy: Any, calibrated: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        active = getattr(getattr(policy, "manager", None), "active", {})
+        active_classes = {class_name for class_name, is_active in active.items() if is_active}
+        if not active_classes:
+            return []
+        best_by_class: dict[str, dict[str, Any]] = {}
+        for det in calibrated:
+            class_name = str(det.get("class_name", det.get("class", ""))).strip().lower().replace("_", " ").replace("-", " ")
+            if class_name not in active_classes:
+                continue
+            current = best_by_class.get(class_name)
+            if current is None or float(det.get("confidence", 0.0)) > float(current.get("confidence", 0.0)):
+                out = dict(det)
+                out["source"] = "cme2_confirmed"
+                best_by_class[class_name] = out
+        return list(best_by_class.values())
 
 
 def default_model_path(project_root: str | Path) -> Path:

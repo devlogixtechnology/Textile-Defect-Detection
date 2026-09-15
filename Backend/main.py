@@ -29,6 +29,11 @@ except Exception:  # pragma: no cover - optional SED-1 demo layer
     SharedYOLODetector = None
     MultiCameraStreamManager = None
 
+try:
+    from SED_2_Alert_Escalation.scripts.factory import create_default_escalation_manager
+except Exception:  # pragma: no cover - optional SED-2 demo layer
+    create_default_escalation_manager = None
+
 logger = logging.getLogger("uvicorn.error")
 
 api_app = FastAPI(title="Textile Defect Detection API")
@@ -46,7 +51,9 @@ MODEL_PATH: Optional[Path] = None
 ALERT_POLICY = None
 ALERT_CONFIG_PATH = PROJECT_ROOT / "Confidence_Calibration" / "configs" / "calibrated_thresholds.yaml"
 CAMERA_CONFIG_PATH = PROJECT_ROOT / "SED_1_Multi_Camera" / "configs" / "cameras.yaml"
+SED2_RUNTIME_LOG_PATH = PROJECT_ROOT / "SED_2_Alert_Escalation" / "runtime" / "alert_events.jsonl"
 STREAM_MANAGER = None
+ESCALATION_MANAGER = None
 
 
 def find_model_path() -> Optional[Path]:
@@ -188,7 +195,7 @@ def start_streams(
     imgsz: int = Query(640, ge=160, le=1280),
     device: Optional[str] = Query(None),
 ):
-    global STREAM_MANAGER
+    global STREAM_MANAGER, ESCALATION_MANAGER
     if MODEL_PATH is None:
         raise HTTPException(status_code=503, detail="Model checkpoint is not available.")
     if any(component is None for component in (load_camera_configs, SharedYOLODetector, MultiCameraStreamManager, AlertPolicy, load_policy_config)):
@@ -197,10 +204,16 @@ def start_streams(
         STREAM_MANAGER.stop()
     cameras = load_camera_configs(CAMERA_CONFIG_PATH, limit=streams)
     detector = SharedYOLODetector(MODEL_PATH, device=device, imgsz=imgsz)
+    ESCALATION_MANAGER = (
+        create_default_escalation_manager(PROJECT_ROOT, log_path=SED2_RUNTIME_LOG_PATH)
+        if create_default_escalation_manager is not None
+        else None
+    )
     STREAM_MANAGER = MultiCameraStreamManager(
         cameras,
         detector,
         alert_policy_factory=lambda: AlertPolicy(load_policy_config(ALERT_CONFIG_PATH)),
+        escalation_manager=ESCALATION_MANAGER,
         queue_size=queue_size,
         micro_batch=True,
     )
@@ -238,4 +251,44 @@ def camera_latest(camera_id: str):
 @api_app.get("/alerts")
 def list_alerts(limit: int = Query(50, ge=1, le=500)):
     manager = _require_stream_manager()
-    return {"alerts": manager.active_alerts[-limit:]}
+    return {
+        "cme2_alerts": manager.active_alerts[-limit:],
+        "sed2_active_events": manager.active_escalations[-limit:],
+    }
+
+
+@api_app.get("/alerts/active")
+def list_active_escalations():
+    manager = _require_stream_manager()
+    if manager.escalation_manager is None:
+        raise HTTPException(status_code=503, detail="SED-2 escalation manager is not available.")
+    return {
+        "events": manager.escalation_manager.active_events(),
+        "camera_overall_severity": manager.escalation_manager.camera_overall_severity(),
+    }
+
+
+@api_app.get("/alerts/{event_id}")
+def get_alert_event(event_id: str):
+    manager = _require_stream_manager()
+    if manager.escalation_manager is None:
+        raise HTTPException(status_code=503, detail="SED-2 escalation manager is not available.")
+    for event in manager.escalation_manager.all_events():
+        if event["event_id"] == event_id:
+            return event
+    raise HTTPException(status_code=404, detail=f"Unknown alert event: {event_id}")
+
+
+@api_app.get("/iot/status")
+def iot_status():
+    if ESCALATION_MANAGER is None:
+        raise HTTPException(status_code=404, detail="SED-2 escalation manager has not been started.")
+    return ESCALATION_MANAGER.dispatcher.relay.status()
+
+
+@api_app.post("/iot/mock-reset")
+def iot_mock_reset():
+    if ESCALATION_MANAGER is None:
+        raise HTTPException(status_code=404, detail="SED-2 escalation manager has not been started.")
+    ESCALATION_MANAGER.dispatcher.relay.reset()
+    return ESCALATION_MANAGER.dispatcher.relay.status()
