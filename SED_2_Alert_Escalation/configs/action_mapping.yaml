@@ -1,0 +1,19 @@
+actions:
+  info:
+    log: true
+    dashboard_flash: false
+    dashboard_critical: false
+    mock_iot_shutdown: false
+
+  warning:
+    log: true
+    dashboard_flash: true
+    dashboard_critical: false
+    mock_iot_shutdown: false
+
+  critical:
+    log: true
+    dashboard_flash: true
+    dashboard_critical: true
+    mock_iot_shutdown: true
+

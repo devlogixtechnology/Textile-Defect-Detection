@@ -1,0 +1,51 @@
+severity_policy_version: SED2-alert-escalation-v1
+default_clear_after_seconds: 5.0
+
+hazards:
+  fire:
+    category: safety
+    initial_severity: warning
+    escalation:
+      critical_after_seconds: 3.0
+      clear_after_seconds: 5.0
+    geofence_overrides:
+      response_zone: critical
+
+  smoke:
+    category: safety
+    initial_severity: info
+    escalation:
+      warning_after_seconds: 2.0
+      critical_after_seconds: 8.0
+      clear_after_seconds: 5.0
+    geofence_overrides:
+      smoke_zone: warning
+
+  water leak:
+    category: safety
+    initial_severity: info
+    escalation:
+      warning_after_seconds: 5.0
+      clear_after_seconds: 6.0
+    geofence_overrides:
+      leak_zone: warning
+
+  chemical hazard:
+    category: safety
+    initial_severity: warning
+    escalation:
+      critical_after_seconds: 3.0
+      clear_after_seconds: 6.0
+    geofence_overrides:
+      response_zone: critical
+      leak_zone: critical
+
+  no helmet:
+    category: safety
+    initial_severity: warning
+    escalation:
+      critical_after_seconds: 10.0
+      clear_after_seconds: 5.0
+    geofence_overrides:
+      ppe_zone: warning
+
