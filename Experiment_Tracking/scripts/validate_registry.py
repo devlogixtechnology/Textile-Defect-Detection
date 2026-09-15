@@ -6,10 +6,11 @@ import sys
 from pathlib import Path
 
 
-VALID_SPRINTS = {"Pre-Sprint-4", "Sprint 4"}
-VALID_TASKS = {"Baseline", "CME-1", "CME-2", "CME-3"}
+VALID_SPRINTS = {"Pre-Sprint-4", "Sprint 4", "Sprint 5"}
+VALID_TASKS = {"Baseline", "CME-1", "CME-2", "CME-3", "SED-1"}
 MODEL_EXPERIMENT_TYPES = {"model_training"}
 CALIBRATION_EXPERIMENT_TYPES = {"calibration"}
+STREAM_BENCHMARK_TYPES = {"stream_benchmark"}
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -80,6 +81,13 @@ def validate(root: Path) -> int:
             for field in ("false_alerts", "missed_violations", "confidence_config"):
                 if is_missing(row.get(field)):
                     errors.append(f"{run_id}: calibration run missing {field}")
+        if row["experiment_type"] in STREAM_BENCHMARK_TYPES:
+            if row["model_version"] not in model_versions:
+                errors.append(f"{run_id}: stream benchmark detector model_version missing from model registry")
+            if row["alert_policy_version"] not in policy_versions:
+                errors.append(f"{run_id}: stream benchmark alert_policy_version missing from alert policy registry")
+            if is_missing(row.get("source_script")):
+                errors.append(f"{run_id}: stream benchmark missing source_script")
 
     for row in policies:
         version = row["policy_version"]

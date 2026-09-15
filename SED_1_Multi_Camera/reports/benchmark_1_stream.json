@@ -1,0 +1,63 @@
+{
+  "architecture_version": "SED1-multicam-v1",
+  "detector_model_version": "cme1-expanded-12class-v1",
+  "alert_policy_version": "cme2-alert-calibrated-v1",
+  "benchmark_config": {
+    "architecture_version": "SED1-multicam-v1",
+    "detector_model_version": "cme1-expanded-12class-v1",
+    "alert_policy_version": "cme2-alert-calibrated-v1",
+    "duration_seconds": 10.0,
+    "warmup_seconds": 1.0,
+    "inference_imgsz": 640,
+    "queue_size": 2,
+    "micro_batch": true,
+    "frame_drop_definition": "unexpected frame drop rate = overload_drops / eligible_frames * 100",
+    "near_real_time_definition": "configured 5 FPS camera sampling with low latency and <5% overload drops",
+    "streams": 1,
+    "imgsz": 640,
+    "device": "cpu",
+    "detector": "yolo",
+    "weights": "C:\\Users\\ehtis\\Desktop\\Textile Defect Detection\\Backend\\best.pt"
+  },
+  "environment": {
+    "python": "3.14.3",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "cpu": "Intel64 Family 6 Model 142 Stepping 9, GenuineIntel",
+    "torch": "2.10.0+cpu",
+    "ultralytics": "8.4.24",
+    "cuda_available": false,
+    "gpu": "not available",
+    "cuda_version": "not available"
+  },
+  "summary": {
+    "streams": 1,
+    "duration_seconds": 10.010567300021648,
+    "aggregate_fps": 1.9978887709947017,
+    "avg_fps_per_camera": 1.9978887709947017,
+    "avg_inference_latency_ms": 523.8762000037241,
+    "avg_end_to_end_latency_ms": 816.6954000043916,
+    "p95_end_to_end_latency_ms": 992.247700021835,
+    "eligible_frames": 50,
+    "processed_frames": 20,
+    "unexpected_drops": 30,
+    "unexpected_drop_rate_pct": 60.0
+  },
+  "per_camera": {
+    "camera_01": {
+      "captured": 2097,
+      "eligible": 50,
+      "submitted": 50,
+      "processed": 20,
+      "configured_skips": 2047,
+      "unexpected_drops": 30,
+      "decode_failures": 0,
+      "drop_rate_pct": 60.0,
+      "processed_fps": 1.9978887709947017,
+      "avg_latency_ms": 816.6954000043916,
+      "p95_latency_ms": 992.247700021835,
+      "avg_queue_depth": 1.9285714285714286,
+      "status": "stopped",
+      "last_error": null
+    }
+  }
+}

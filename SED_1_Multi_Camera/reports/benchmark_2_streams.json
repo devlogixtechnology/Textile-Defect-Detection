@@ -1,0 +1,79 @@
+{
+  "architecture_version": "SED1-multicam-v1",
+  "detector_model_version": "cme1-expanded-12class-v1",
+  "alert_policy_version": "cme2-alert-calibrated-v1",
+  "benchmark_config": {
+    "architecture_version": "SED1-multicam-v1",
+    "detector_model_version": "cme1-expanded-12class-v1",
+    "alert_policy_version": "cme2-alert-calibrated-v1",
+    "duration_seconds": 10.0,
+    "warmup_seconds": 1.0,
+    "inference_imgsz": 640,
+    "queue_size": 2,
+    "micro_batch": true,
+    "frame_drop_definition": "unexpected frame drop rate = overload_drops / eligible_frames * 100",
+    "near_real_time_definition": "configured 5 FPS camera sampling with low latency and <5% overload drops",
+    "streams": 2,
+    "imgsz": 640,
+    "device": "cpu",
+    "detector": "yolo",
+    "weights": "C:\\Users\\ehtis\\Desktop\\Textile Defect Detection\\Backend\\best.pt"
+  },
+  "environment": {
+    "python": "3.14.3",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "cpu": "Intel64 Family 6 Model 142 Stepping 9, GenuineIntel",
+    "torch": "2.10.0+cpu",
+    "ultralytics": "8.4.24",
+    "cuda_available": false,
+    "gpu": "not available",
+    "cuda_version": "not available"
+  },
+  "summary": {
+    "streams": 2,
+    "duration_seconds": 10.045008899993263,
+    "aggregate_fps": 0.8959673495168368,
+    "avg_fps_per_camera": 0.4479836747584184,
+    "avg_inference_latency_ms": 1360.0790333293844,
+    "avg_end_to_end_latency_ms": 3143.6129777834544,
+    "p95_end_to_end_latency_ms": 5336.168000008911,
+    "eligible_frames": 97,
+    "processed_frames": 9,
+    "unexpected_drops": 88,
+    "unexpected_drop_rate_pct": 90.72164948453609
+  },
+  "per_camera": {
+    "camera_01": {
+      "captured": 1367,
+      "eligible": 49,
+      "submitted": 49,
+      "processed": 5,
+      "configured_skips": 1318,
+      "unexpected_drops": 44,
+      "decode_failures": 0,
+      "drop_rate_pct": 89.79591836734694,
+      "processed_fps": 0.49775963862046485,
+      "avg_latency_ms": 3044.31004000362,
+      "p95_latency_ms": 5230.670300021302,
+      "avg_queue_depth": 1.9074074074074074,
+      "status": "stopped",
+      "last_error": null
+    },
+    "camera_02": {
+      "captured": 643,
+      "eligible": 48,
+      "submitted": 48,
+      "processed": 4,
+      "configured_skips": 595,
+      "unexpected_drops": 44,
+      "decode_failures": 0,
+      "drop_rate_pct": 91.66666666666666,
+      "processed_fps": 0.39842994695119416,
+      "avg_latency_ms": 3267.7416500082472,
+      "p95_latency_ms": 5336.168000008911,
+      "avg_queue_depth": 1.9230769230769231,
+      "status": "stopped",
+      "last_error": null
+    }
+  }
+}

@@ -46,6 +46,7 @@ kaggle.json
 *.json
 !package.json
 !Confidence_Calibration/benchmark/annotations/*.json
+!SED_1_Multi_Camera/reports/*.json
 token.json
 credentials.json
 service_account*.json

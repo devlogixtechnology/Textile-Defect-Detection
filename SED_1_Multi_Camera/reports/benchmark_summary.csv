@@ -1,0 +1,5 @@
+streams,aggregate_fps,avg_fps_per_camera,avg_latency_ms,p95_latency_ms,drop_rate_pct,eligible_frames,processed_frames,unexpected_drops
+1,1.998,1.998,816.695,992.248,60.000,50,20,30
+2,0.896,0.448,3143.613,5336.168,90.722,97,9,88
+3,0.954,0.318,5196.519,7186.886,90.385,104,10,94
+4,0.964,0.241,4174.107,10248.810,93.197,147,10,137

@@ -287,6 +287,58 @@ streamlit run Frontend/app.py
 The dashboard uploads images to the FastAPI backend and displays detections on
 the image. It does not run YOLO inference locally.
 
+## 6. Multi-Camera Stream Architecture
+
+SED-1 lives in:
+
+```text
+SED_1_Multi_Camera/
+```
+
+It refactors inference into a reusable multi-camera pipeline:
+
+```text
+Capture workers -> bounded latest-frame queues -> fair scheduler
+-> shared YOLO detector -> per-camera geofence filter
+-> per-camera CME-2 AlertPolicy -> camera-specific alerts/results
+```
+
+Key properties:
+
+- supports 1-4 simulated camera feeds from video files
+- uses one shared `cme1-expanded-12class-v1` detector by default
+- preserves independent CME-2 temporal state per camera
+- supports normalized polygon geofences per camera
+- tracks captured, eligible, submitted, processed, configured skipped, overload
+  dropped, and failed frames separately
+- exposes optional FastAPI demo endpoints for camera status/results/alerts
+- adds a Streamlit multi-camera status tab without replacing image inference
+
+Configuration:
+
+```text
+SED_1_Multi_Camera/configs/cameras.yaml
+SED_1_Multi_Camera/configs/benchmark.yaml
+```
+
+Benchmark:
+
+```powershell
+python SED_1_Multi_Camera/scripts/benchmark_multistream.py --streams 3 --duration-seconds 60 --warmup-seconds 5 --device 0
+```
+
+Local CPU benchmark evidence is stored in:
+
+```text
+SED_1_Multi_Camera/reports/
+```
+
+The local CPU-only environment (`torch 2.10.0+cpu`, CUDA unavailable) validates
+that the architecture runs but does **not** satisfy the SED-1 performance DoD.
+The measured 3-stream CPU run processed `10/104` eligible frames with `90.385%`
+unexpected drops. Run the same benchmark on the target CUDA/T4 environment
+before marking the `<5%` frame-drop performance requirement as passed.
+
 ## Notes for GitHub
 
 The following are intentionally ignored and should remain in Drive/local storage:
