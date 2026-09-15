@@ -1,0 +1,28 @@
+stress_test:
+  version: SED3-stress-v1
+  duration_seconds: 1800
+  warmup_seconds: 60
+  resource_sample_interval_seconds: 1
+  streams: 3
+  queue_size: 2
+  micro_batch: true
+  inference:
+    device: cpu
+    imgsz: 640
+    weights: Backend/best.pt
+  configs:
+    cameras: SED_1_Multi_Camera/configs/cameras.yaml
+    cme2_alert_policy: Confidence_Calibration/configs/calibrated_thresholds.yaml
+    sed2_severity_rules: SED_2_Alert_Escalation/configs/severity_rules.yaml
+    sed2_action_mapping: SED_2_Alert_Escalation/configs/action_mapping.yaml
+  monitoring:
+    cpu: true
+    memory: true
+    gpu: true
+  outputs:
+    directory: SED_3_Stress_Testing/reports
+    timeseries_csv: stress_test_timeseries.csv
+    summary_json: stress_test_summary.json
+    latency_summary_csv: latency_summary.csv
+    resource_summary_csv: resource_summary.csv
+
