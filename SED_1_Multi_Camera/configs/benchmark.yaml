@@ -1,0 +1,12 @@
+benchmark:
+  architecture_version: SED1-multicam-v1
+  detector_model_version: cme1-expanded-12class-v1
+  alert_policy_version: cme2-alert-calibrated-v1
+  duration_seconds: 60
+  warmup_seconds: 5
+  inference_imgsz: 640
+  queue_size: 2
+  micro_batch: true
+  frame_drop_definition: "unexpected frame drop rate = overload_drops / eligible_frames * 100"
+  near_real_time_definition: "configured 5 FPS camera sampling with low latency and <5% overload drops"
+
